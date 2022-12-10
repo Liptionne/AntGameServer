@@ -12,10 +12,12 @@
 #include <boost/scoped_ptr.hpp>
 
 void test() { //Juste pour faire le test de l'envoi du JSON join de la part du client
-    std::this_thread::sleep_for(std::chrono::milliseconds(3000)); //on attend un peu pour etre sur que tout est bien initialisé
-    Client* client1 = new Client("127.0.0.1", 5000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000)); //on attend un peu pour etre sur que tout est bien initialisé
+    std::string adress = "127.0.0.1";
+    short port = 5000;
+    std::shared_ptr<Client> client1 = std::make_shared<Client>(adress, port);
     client1->envoyerJSON("JOIN.json", client1->getSocket());
-    free(client1);
+    
 }
 
 int main() {

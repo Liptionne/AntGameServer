@@ -2,7 +2,7 @@
 
 Client::Client(std::string _adress, short _port) {
     socket = std::make_shared<tcp::socket>(io_context);
-    socket->connect(tcp::endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 5000));
+    socket->connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
 }
 
 void Client::envoyerJSON(std::string file, std::shared_ptr<tcp::socket> socket_) {

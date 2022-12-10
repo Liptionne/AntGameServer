@@ -61,16 +61,8 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
     else if(type == "move") {
 
     }
-    auto handler = std::bind(&session::handle_write, shared_from_this(), _1);
-    async_write(socket_, buffer(buffer_, bytes_transferred), handler);
+    listen();
 }
 
-void session::handle_write(const error_code& ec) {
-    if (ec) {
-        throw system_error{ ec };
-    }
 
-    auto handler = std::bind(&session::handle_read, shared_from_this(), _1, _2);
-    socket_.async_read_some(buffer(buffer_), handler);
-}
 
