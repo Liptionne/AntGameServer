@@ -34,27 +34,22 @@ public:
         size_t bytes_transferred);
 
     /**
-     * Callback for socket writes.
-     */
-    void handle_write(const boost::system::error_code& ec);
-
-    /**
      * Get a reference to the session socket.
      */
-    socket_t& socket() { return socket_; }
+    socket_t& socket() { return p_socket; }
 
-    server* getServer() { return _origin; }
+    server* getServer() { return p_origin; }
 
-    void setGame(game* _game) { game = _game; };
+    void setGame(game* _game) { p_game = _game; };
     
 
 private:
     /**
      * Session socket
      */
-    game* game;
-    socket_t socket_;
-    server* _origin;
+    game* p_game;
+    socket_t p_socket;
+    server* p_origin;
     /**
      * Buffer to be used for r/w operations.
      */

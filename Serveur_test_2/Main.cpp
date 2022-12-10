@@ -1,15 +1,11 @@
 #include "server/server.h"
 #include "Client/client.h"  
 
-#include <numeric>
 #include <thread>
-#include <boost/thread.hpp>
 #include <chrono>
 
-#include <boost/asio.hpp>
-#include <boost/thread.hpp>
-#include <boost/bind.hpp>
-#include <boost/scoped_ptr.hpp>
+
+
 
 void test() { //Juste pour faire le test de l'envoi du JSON join de la part du client
     std::this_thread::sleep_for(std::chrono::milliseconds(5000)); //on attend un peu pour etre sur que tout est bien initialisé
@@ -25,12 +21,9 @@ int main() {
     
     std::thread t(test);
 
-
     boost::asio::io_service service{};
 
-
     server s{ service, port };
-
 
     service.run();
     t.join();

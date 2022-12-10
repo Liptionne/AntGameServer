@@ -23,11 +23,11 @@ using boost::system::system_error;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
-session::session(io_service& service, server* _server) : socket_{ service }, _origin{ _server }, game{NULL} {}
+session::session(io_service& service, server* _server) : p_socket{ service }, p_origin{ _server }, p_game{NULL} {}
 
 void session::listen() {
     auto handler = std::bind(&session::handle_read, shared_from_this(), _1, _2);
-    socket_.async_read_some(buffer(buffer_), handler);
+    p_socket.async_read_some(buffer(buffer_), handler);
 }
 
 void session::handle_read(const error_code& ec, size_t bytes_transferred) {
@@ -52,11 +52,11 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
     std::string type = JSON::getType(root);
     if (type == "join"){
         std::cout << "join" << std::endl;
-        boost::uuids::uuid lol = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
-        std::cout << lol << std::endl;
+        boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
+        std::cout << UUID << std::endl;
         int difficulty = JSON::getDifficultyJoin(root);
         std::cout << "difficulty" << difficulty << std::endl;
-        _origin->matchmaking(difficulty, lol,shared_from_this());
+        p_origin->matchmaking(difficulty, UUID,shared_from_this());
     }
     else if(type == "move") {
 

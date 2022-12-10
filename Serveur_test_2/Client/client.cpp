@@ -1,8 +1,8 @@
 #include "client.h"
 
 Client::Client(std::string _adress, short _port) {
-    socket = std::make_shared<tcp::socket>(io_context);
-    socket->connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
+    p_socket = std::make_shared<tcp::socket>(p_io_context);
+    p_socket->connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
 }
 
 void Client::envoyerJSON(std::string file, std::shared_ptr<tcp::socket> socket_) {
@@ -15,8 +15,6 @@ void Client::envoyerJSON(std::string file, std::shared_ptr<tcp::socket> socket_)
     boost::property_tree::write_json(ss, root);
     std::string string = ss.str();
 
-    //std::cout << "on va envoyer ca : " << std::endl << string << std::endl;
-    //std::cout << "longueur = " << string.length() << std::endl;
 
     boost::asio::write(*socket_, boost::asio::buffer(string), error);
 

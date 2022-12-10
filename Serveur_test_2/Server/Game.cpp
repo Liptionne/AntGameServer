@@ -4,6 +4,14 @@
 game::game(const int& _difficulty, const int& _max_nb_players) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
 	//créer le labyrinthe
+	ParamMaze parameters_maze;
+	parameters_maze.nbColumn = 20;
+	parameters_maze.nbLine = 20;
+	parameters_maze.nbFood = 2;
+	parameters_maze.nestLine = 19;
+	parameters_maze.nestColumn = 19;
+	parameters_maze.difficulty = _difficulty;
+	p_Maze = generateMaze(&parameters_maze);
 	//initialise le std::vector de session
 	Actual_players = 0;
 	

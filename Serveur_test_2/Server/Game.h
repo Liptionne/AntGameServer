@@ -17,7 +17,7 @@ private:
 	int MAX_PLAYERS;
 	int Actual_players;
 
-	Maze test;
+	Maze* p_Maze;
 public:
 	game(const int& _difficulty,const int& _max_nb_players);
 
@@ -28,7 +28,7 @@ public:
 	void updateMaze();
 	void startGame();
 	void stopGame();
-	Maze getMaze();
+	Maze* getMaze() { return p_Maze; };
 	
 };
 
