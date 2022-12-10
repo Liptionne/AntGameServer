@@ -17,6 +17,8 @@ private:
 	int MAX_PLAYERS;
 	int Actual_players;
 
+	std::vector<float> p_pheromons;
+
 	Maze* p_Maze;
 public:
 	game(const int& _difficulty,const int& _max_nb_players);
