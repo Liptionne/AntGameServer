@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers sources\Server">
+      <UniqueIdentifier>{48b79dcc-93d0-462c-9844-24418a2ed331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Maze">
+      <UniqueIdentifier>{a1456e47-cebb-49ec-a7e6-9202949c2b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Server">
+      <UniqueIdentifier>{6eb77726-1d3c-4564-818e-3b8bbb856516}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Client">
+      <UniqueIdentifier>{37c45996-1512-4c2c-bb94-925608136437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Maze">
+      <UniqueIdentifier>{ce0ac5e2-2876-4502-9774-ee8fe06368d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Client">
+      <UniqueIdentifier>{a8701e38-fcbf-450b-9986-1db50ea4dead}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="JSON.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Game.h">
+      <Filter>Fichiers d%27en-tête\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\server.h">
+      <Filter>Fichiers d%27en-tête\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\session.h">
+      <Filter>Fichiers d%27en-tête\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze\CException.h">
+      <Filter>Fichiers d%27en-tête\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze\CMaze.h">
+      <Filter>Fichiers d%27en-tête\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze\CMazeGenerator.h">
+      <Filter>Fichiers d%27en-tête\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze\CTile.h">
+      <Filter>Fichiers d%27en-tête\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Maze\libAntMaze.h">
+      <Filter>Fichiers d%27en-tête\Maze</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\client.h">
+      <Filter>Fichiers d%27en-tête\Client</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="JSON.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Server.cpp">
+      <Filter>Fichiers sources\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Game.cpp">
+      <Filter>Fichiers sources\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze\CException.cpp">
+      <Filter>Fichiers sources\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze\CMaze.cpp">
+      <Filter>Fichiers sources\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze\CMazeGenerator.cpp">
+      <Filter>Fichiers sources\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze\CTile.cpp">
+      <Filter>Fichiers sources\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Maze\libAntMaze.cpp">
+      <Filter>Fichiers sources\Maze</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Session.cpp">
+      <Filter>Fichiers sources\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\client.cpp">
+      <Filter>Fichiers sources\Client</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="JOIN.json">
+      <Filter>Fichiers sources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Serveur_test_2.rc">
+      <Filter>Fichiers de ressources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
