@@ -53,14 +53,13 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
     if (type == "join"){
         std::cout << "join" << std::endl;
         boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
-        //std::cout << UUID << std::endl;
+        std::cout << UUID << std::endl;
         int difficulty = JSON::getDifficultyJoin(root);
-        //std::cout << "difficulty" << difficulty << std::endl;
+        std::cout << "difficulty" << difficulty << std::endl;
         p_origin->matchmaking(difficulty, UUID,shared_from_this());
-        
     }
     else if(type == "move") {
-
+        std::cout << "MOVE" << std::endl;
     }
     listen();
 }

@@ -12,7 +12,9 @@ void test() { //Juste pour faire le test de l'envoi du JSON join de la part du c
     std::string adress = "127.0.0.1";
     short port = 5000;
     std::shared_ptr<Client> client1 = std::make_shared<Client>(adress, port);
-    client1->envoyerJSON("JOIN.json", client1->getSocket());
+    client1->join(client1->getSocket());
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    client1->move(client1->getSocket(),"haut");
     
 }
 

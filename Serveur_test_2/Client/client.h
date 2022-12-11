@@ -4,6 +4,9 @@
 #include <iostream>
 #include <memory>
 #include <boost/uuid/uuid.hpp>   
+#include "../JSON.h"
+
+#define NULL_UUID    { 00000000 - 0000 - 0000 - 0000 - 000000000000 }
 
 using boost::asio::ip::tcp;
 
@@ -18,6 +21,7 @@ public:
     Client(std::string _adress, short _port);
     std::shared_ptr<tcp::socket> getSocket() { return p_socket; };
 
-    void envoyerJSON(std::string file, std::shared_ptr<tcp::socket> socket_);
+    void join(std::shared_ptr<tcp::socket> socket_);
+    void move(std::shared_ptr<tcp::socket> socket_, std::string _move);
 
 };

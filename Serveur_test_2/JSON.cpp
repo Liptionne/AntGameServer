@@ -42,8 +42,8 @@ void JSON::getMaze(const boost::property_tree::ptree& root, Maze* _maze)
     std::string towork = root.get<std::string>("body.maze.tiles", "0");
 
     char* ptr;    
-    char* yo = (char*)towork.c_str();
-    ptr = strtok(yo, " , ");
+    char* buffer = (char*)towork.c_str();
+    ptr = strtok(buffer, " , ");
     int i = 0;
     while (ptr != NULL)
     {
@@ -60,20 +60,20 @@ std::vector<float> JSON::getPheromons(const boost::property_tree::ptree& root)
     std::cout << towork << std::endl;
 
     char* ptr;
-    char* yo = (char*)towork.c_str();
-    ptr = strtok(yo, " , ");
+    char* buffer = (char*)towork.c_str();
+    ptr = strtok(buffer, " , ");
     int i = 0;
-    std::vector<float> test;
+    std::vector<float> vect_to_return;
     while (ptr != NULL)
     {
-        test.push_back(atof(ptr));
+        vect_to_return.push_back(atof(ptr));
         i++;
         ptr = strtok(NULL, " , ");
     }
-    for (int i = 0; i < test.size(); i++) {
-        std::cout << test.at(i) << ' ';
+    for (int i = 0; i < vect_to_return.size(); i++) {
+        std::cout << vect_to_return.at(i) << ' ';
     }
-    return test;
+    return vect_to_return;
 }
 
 // ----------------------------------------------------------------------------------------------------------------------
