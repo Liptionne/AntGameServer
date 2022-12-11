@@ -22,9 +22,12 @@ class server {
 
 public:
     std::vector<game> _games;
+    std::vector <std::pair<boost::uuids::uuid, game>> _players_games;
     server(boost::asio::io_service& service, unsigned short port);
 
     void start_accept();
+
+    game getGame(const boost::uuids::uuid& _uuid);
 
     void handle_accept(std::shared_ptr<session> new_session,
         const boost::system::error_code& ec);

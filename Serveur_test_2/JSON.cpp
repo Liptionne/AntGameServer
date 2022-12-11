@@ -30,7 +30,7 @@ int JSON::getDifficultyJoin(const boost::property_tree::ptree& root)
 
 std::string JSON::getMove(const boost::property_tree::ptree& root)
 {
-    return root.get<std::string>("body.direction","0");
+    return root.get<std::string>("body.move","0");
 }
 
 void JSON::getMaze(const boost::property_tree::ptree& root, Maze* _maze)

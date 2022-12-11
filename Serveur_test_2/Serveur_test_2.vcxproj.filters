@@ -63,6 +63,9 @@
     <ClInclude Include="Client\client.h">
       <Filter>Fichiers d%27en-tête\Client</Filter>
     </ClInclude>
+    <ClInclude Include="Server\player.h">
+      <Filter>Fichiers d%27en-tête\Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

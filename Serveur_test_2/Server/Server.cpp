@@ -33,10 +33,21 @@ server::server(boost::asio::io_service& service,
 }
 
 void server::start_accept() {
+
+    
     std::shared_ptr<session> new_session{ std::make_shared<session>(service_, this)};
     auto handler =
         std::bind(&server::handle_accept, this, new_session, _1);
     acceptor_.async_accept(new_session->socket(), handler);
+}
+
+game server::getGame(const boost::uuids::uuid& _uuid)
+{
+    int i = 0;
+    while (_players_games[i].first != _uuid) {
+        i++;
+    }
+   return _players_games[i].second;
 }
 
 void server::handle_accept( std::shared_ptr<session> new_session,
@@ -57,7 +68,8 @@ void server::matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_
         game newgame(_difficulty, 10,20);
         _games.insert(_games.begin() + (_difficulty - 1), newgame);
     }
-    game_.join(_uuid, _session);
+    game_.join(_uuid);
+    _players_games.push_back(std::pair(_uuid,game_));
 }
 
 

@@ -38,16 +38,12 @@ public:
      */
     socket_t& socket() { return p_socket; }
 
-    server* getServer() { return p_origin; }
-
-    void setGame(game* _game) { p_game = _game; };
-    
+    server* getServer() { return p_origin; }    
 
 private:
     /**
      * Session socket
      */
-    game* p_game;
     socket_t p_socket;
     server* p_origin;
     /**

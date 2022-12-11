@@ -27,6 +27,7 @@
     <ClInclude Include="Maze\CTile.h" />
     <ClInclude Include="Maze\libAntMaze.h" />
     <ClInclude Include="Server\Game.h" />
+    <ClInclude Include="Server\player.h" />
     <ClInclude Include="Server\server.h" />
     <ClInclude Include="Server\session.h" />
   </ItemGroup>

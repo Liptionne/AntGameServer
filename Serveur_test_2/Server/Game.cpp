@@ -1,5 +1,7 @@
 #include "Game.h"
 #include <iostream>
+#include <stdlib.h>
+
 #include <boost/property_tree/json_parser.hpp>
 
 
@@ -21,18 +23,43 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 	
 }
 
-void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session> _session)
+void game::join(const boost::uuids::uuid& _player_uuid)
 {
 	std::cout << "game.join" << std::endl;
-	players.push_back(_session);
+	Player player_to_add;
+	player_to_add.actual_line = p_Maze->nestLine;
+	player_to_add.actual_column = p_Maze->nestColumn;
+	player_to_add.has_food = false;
+	player_to_add.p_uuid = _player_uuid;
+
+	players.push_back(player_to_add);
 	Actual_players += 1;
-	_session->setGame(this);
 	std::string coucou = JSON::createokMaze(_player_uuid,*p_Maze);
 	
 }
 
 void game::move(const boost::uuids::uuid& _player, std::string _move)
 {
+	std::cout << "yo move" << std::endl;
+	int i = 0;
+	while (players[i].p_uuid != _player) {
+		i++;
+	}
+	if (_move == "haut") {
+		std::cout << "haut" << std::endl;
+		(players[i].actual_line) -= 1;
+	}
+	if (_move == "bas") {
+		(players[i].actual_line) += 1;
+	}
+	if (_move == "gauche") {
+		(players[i].actual_column) -= 1;
+	}
+	if (_move == "droite") {
+		(players[i].actual_column) += 1;
+	}
+	
+
 }
 
 void game::updateMaze()
