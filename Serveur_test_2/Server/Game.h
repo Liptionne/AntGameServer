@@ -20,6 +20,7 @@ private:
 	std::vector<float> p_pheromons;
 
 	Maze* p_Maze;
+	
 public:
 	game(const int& _difficulty,const int& _max_nb_players);
 
@@ -31,6 +32,5 @@ public:
 	void startGame();
 	void stopGame();
 	Maze* getMaze() { return p_Maze; };
-	
 };
 

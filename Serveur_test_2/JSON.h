@@ -18,7 +18,11 @@ namespace JSON {
 
 	std::string getMove(const boost::property_tree::ptree& root);
 
+	void getMaze(const boost::property_tree::ptree& root, Maze* _maze);
 
+	std::vector <float> getPheromons(const boost::property_tree::ptree& root);
+
+	
 
 	// ------------------------------- CREATING a JSON (return a string to send it easily) ---------------------------
 

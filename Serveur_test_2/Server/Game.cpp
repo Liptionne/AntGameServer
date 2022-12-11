@@ -1,5 +1,7 @@
 #include "Game.h"
 #include <iostream>
+#include <boost/property_tree/json_parser.hpp>
+
 
 game::game(const int& _difficulty, const int& _max_nb_players) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
@@ -24,9 +26,15 @@ void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session>
 	players.push_back(_session);
 	Actual_players += 1;
 	_session->setGame(this);
-	
-	std::cout << JSON::createInfo(_player_uuid,p_pheromons) << std::endl;
+	std::string coucou = JSON::createokMaze(_player_uuid, *p_Maze);
+	std::cout << coucou << std::endl;
 	//lui envoi le labyrinthe
+
+	boost::property_tree::ptree root;
+	std::stringstream ss;
+	ss << coucou;
+	boost::property_tree::read_json(ss, root);
+	JSON::getMaze(root, p_Maze);
 }
 
 void game::move(const boost::uuids::uuid& _player, std::string _move)

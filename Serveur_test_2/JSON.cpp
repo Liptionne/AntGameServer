@@ -33,6 +33,34 @@ std::string JSON::getMove(const boost::property_tree::ptree& root)
     return root.get<std::string>("body.direction","0");
 }
 
+void JSON::getMaze(const boost::property_tree::ptree& root, Maze* _maze)
+{
+    _maze->nbColumn = stoi(root.get<std::string>("body.maze.nbColumn", "0"));
+    _maze->nbLine = stoi(root.get<std::string>("body.maze.nbLine", "0"));
+    _maze->nestColumn = stoi(root.get<std::string>("body.maze.nestColumn", "0"));
+    _maze->nestLine = stoi(root.get<std::string>("body.maze.nestLine", "0"));
+    std::string towork = root.get<std::string>("body.maze.tiles", "0");
+
+    char* ptr;    
+    char* yo = (char*)towork.c_str();
+    ptr = strtok(yo, " , ");
+    int i = 0;
+    while (ptr != NULL)
+    {
+        _maze->tiles[i] = ((uint8_t)atoi(ptr));
+        i++;
+        ptr = strtok(NULL, " , ");
+    }
+    
+}
+
+std::vector<float> JSON::getPheromons(const boost::property_tree::ptree& root)
+{
+    return std::vector<float>();
+}
+
+// ----------------------------------------------------------------------------------------------------------------------
+
 std::string JSON::createGeneric(boost::uuids::uuid _uuid,boost::property_tree::ptree _root) {
     
     _root.put("body.playerId", _uuid);
