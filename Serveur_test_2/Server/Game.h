@@ -17,9 +17,12 @@ private:
 	int MAX_PLAYERS;
 	int Actual_players;
 
-	Maze test;
+	std::vector<float> p_pheromons;
+
+	Maze* p_Maze;
+	
 public:
-	game(const int& _difficulty,const int& _max_nb_players);
+	game(const int& _difficulty,const int& _max_nb_players, int size_side_maze);
 
 	void join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session> _session);
 	int getMax_Players() { return MAX_PLAYERS; }
@@ -28,7 +31,6 @@ public:
 	void updateMaze();
 	void startGame();
 	void stopGame();
-	Maze getMaze();
-	
+	Maze* getMaze() { return p_Maze; };
 };
 
