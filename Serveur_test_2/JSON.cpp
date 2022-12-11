@@ -56,7 +56,24 @@ void JSON::getMaze(const boost::property_tree::ptree& root, Maze* _maze)
 
 std::vector<float> JSON::getPheromons(const boost::property_tree::ptree& root)
 {
-    return std::vector<float>();
+    std::string towork = root.get<std::string>("body.pheromon", "0");
+    std::cout << towork << std::endl;
+
+    char* ptr;
+    char* yo = (char*)towork.c_str();
+    ptr = strtok(yo, " , ");
+    int i = 0;
+    std::vector<float> test;
+    while (ptr != NULL)
+    {
+        test.push_back(atof(ptr));
+        i++;
+        ptr = strtok(NULL, " , ");
+    }
+    for (int i = 0; i < test.size(); i++) {
+        std::cout << test.at(i) << ' ';
+    }
+    return test;
 }
 
 // ----------------------------------------------------------------------------------------------------------------------
@@ -116,6 +133,7 @@ std::string JSON::createInfo(boost::uuids::uuid _uuid, std::vector<float> _phero
     size_t nbPheromons = _pheromons.size() - 1;
     for (int i = 0; i < nbPheromons; i++) {
         ss << _pheromons[i] << ",";
+        
     }
     ss << _pheromons[nbPheromons];
     

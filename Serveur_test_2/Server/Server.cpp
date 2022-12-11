@@ -17,9 +17,9 @@ server::server(boost::asio::io_service& service,
     const unsigned short port)
     : service_{ service }, acceptor_{ service } {
         
-        game game1(1, 10);
-        game game2(2, 10);
-        game game3(3, 10);
+        game game1(1, 10,20);
+        game game2(2, 10,20);
+        game game3(3, 10,20);
         _games.push_back(game1);
         _games.push_back(game2);
         _games.push_back(game3);
@@ -54,7 +54,7 @@ void server::matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_
     std::cout << "matchmaking" << std::endl;
     game game_ = _games[_difficulty - 1];
     if (game_.getMax_Players() == game_.getNb_Players()) {
-        game newgame(_difficulty, 10);
+        game newgame(_difficulty, 10,20);
         _games.insert(_games.begin() + (_difficulty - 1), newgame);
     }
     game_.join(_uuid, _session);

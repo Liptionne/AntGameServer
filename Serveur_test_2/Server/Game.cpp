@@ -3,18 +3,19 @@
 #include <boost/property_tree/json_parser.hpp>
 
 
-game::game(const int& _difficulty, const int& _max_nb_players) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
+game::game(const int& _difficulty, const int& _max_nb_players, int size_side_maze) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
 	//créer le labyrinthe
 	ParamMaze parameters_maze;
-	parameters_maze.nbColumn = 20;
-	parameters_maze.nbLine = 20;
+	
+	parameters_maze.nbColumn = size_side_maze;
+	parameters_maze.nbLine = size_side_maze;
 	parameters_maze.nbFood = 2;
 	parameters_maze.nestLine = 19;
 	parameters_maze.nestColumn = 19;
 	parameters_maze.difficulty = _difficulty;
 	p_Maze = generateMaze(&parameters_maze);
-	std::vector<float> vector1(20 * 20, 0.0);
+	std::vector<float> vector1(size_side_maze * size_side_maze, 0.0);
 	p_pheromons = std::move(vector1);
 	Actual_players = 0;
 	
@@ -26,15 +27,8 @@ void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session>
 	players.push_back(_session);
 	Actual_players += 1;
 	_session->setGame(this);
-	std::string coucou = JSON::createokMaze(_player_uuid, *p_Maze);
-	std::cout << coucou << std::endl;
-	//lui envoi le labyrinthe
-
-	boost::property_tree::ptree root;
-	std::stringstream ss;
-	ss << coucou;
-	boost::property_tree::read_json(ss, root);
-	JSON::getMaze(root, p_Maze);
+	std::string coucou = JSON::createokMaze(_player_uuid,*p_Maze);
+	
 }
 
 void game::move(const boost::uuids::uuid& _player, std::string _move)
