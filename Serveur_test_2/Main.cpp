@@ -8,7 +8,7 @@
 
 
 void test() { //Juste pour faire le test de l'envoi du JSON join de la part du client
-    std::this_thread::sleep_for(std::chrono::milliseconds(5000)); //on attend un peu pour etre sur que tout est bien initialisé
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000)); //on attend un peu pour etre sur que tout est bien initialisé
     std::string adress = "127.0.0.1";
     short port = 5000;
     std::shared_ptr<Client> client1 = std::make_shared<Client>(adress, port);

@@ -10,7 +10,7 @@ void Client::envoyerJSON(std::string file, std::shared_ptr<tcp::socket> socket_)
     std::stringstream ss;
     boost::system::error_code error;
 
-    boost::property_tree::read_json("D:/testjson.json", root);
+    boost::property_tree::read_json(file, root);
 
     boost::property_tree::write_json(ss, root);
     std::string string = ss.str();

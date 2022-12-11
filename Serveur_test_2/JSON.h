@@ -3,8 +3,6 @@
 #include <boost/uuid/uuid.hpp>  
 #include <vector>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 #include "Maze/libAntMaze.h"
 
 
@@ -34,9 +32,4 @@ namespace JSON {
 
 	std::string createInfo(boost::uuids::uuid _uuid, std::vector<float> _pheromons);
 
-
-
-
-
-	
 }

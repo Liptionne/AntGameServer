@@ -62,15 +62,37 @@ std::string JSON::createokMaze(boost::uuids::uuid _uuid, Maze _maze)
 {
     boost::property_tree::ptree root;
     root.put("type", "okMaze");
-    root.put("body.maze", _maze);
+    root.put("body.maze.nbColumn", _maze.nbColumn);
+    root.put("body.maze.nbLine", _maze.nbLine);
+    root.put("body.maze.nestColumn", _maze.nestColumn);
+    root.put("body.maze.nestLine", _maze.nestLine);
+    
+    std::stringstream ss;
+    int nbTiles = _maze.nbColumn * _maze.nbLine;
+    for (int i = 0; i < nbTiles-1; i++) {
+        ss << (unsigned int)_maze.tiles[i] << ",";
+    }
+    ss << (unsigned int)_maze.tiles[nbTiles - 1];
+    root.put("body.maze.tiles", ss.str());
+    
     return createGeneric(_uuid, root);
 }
+
 
 std::string JSON::createInfo(boost::uuids::uuid _uuid, std::vector<float> _pheromons)
 {
     boost::property_tree::ptree root;
     root.put("type", "info");
-    root.put("body.maze", _pheromons);
+    std::stringstream ss;
+    std::string str(_pheromons.begin(), _pheromons.end());
+    size_t nbPheromons = _pheromons.size() - 1;
+    for (int i = 0; i < nbPheromons; i++) {
+        ss << _pheromons[i] << ",";
+    }
+    ss << _pheromons[nbPheromons];
+    
+    root.put("body.pheromon", ss.str());
+    
     return createGeneric(_uuid, root);
 }
 
