@@ -12,7 +12,7 @@ using boost::asio::ip::tcp;
 
 
 
-class Client {
+class Client : public std::enable_shared_from_this<Client> {
 private:
     boost::asio::io_context p_io_context;
     std::shared_ptr<tcp::socket> p_socket;
@@ -22,6 +22,8 @@ public:
     std::shared_ptr<tcp::socket> getSocket() { return p_socket; };
 
     void join(std::shared_ptr<tcp::socket> socket_);
+    void handle_write(const std::error_code& ec);
     void move(std::shared_ptr<tcp::socket> socket_, std::string _move);
+
 
 };

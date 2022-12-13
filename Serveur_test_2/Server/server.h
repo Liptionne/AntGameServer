@@ -23,7 +23,7 @@ class server {
 public:
     std::vector<game> _games;
     std::vector <std::pair<boost::uuids::uuid, game>> _players_games;
-    server(boost::asio::io_service& service, unsigned short port);
+    server(boost::asio::io_context& service, unsigned short port);
 
     void start_accept();
 
@@ -38,7 +38,7 @@ private:
     /**
      * Reference to the I/O service that will call our callbacks.
      */
-    boost::asio::io_service& service_;
+    boost::asio::io_context& service_;
 
     /**
      * Acceptors listening to a socket on a port.

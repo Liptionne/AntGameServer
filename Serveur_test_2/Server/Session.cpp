@@ -14,7 +14,7 @@
 
 using boost::asio::async_write;
 using boost::asio::buffer;
-using boost::asio::io_service;
+using boost::asio::io_context;
 using boost::asio::error::connection_reset;
 using boost::asio::error::eof;
 using boost::system::error_code;
@@ -23,7 +23,7 @@ using boost::system::system_error;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
-session::session(io_service& service, server* _server) : p_socket{ service }, p_origin{ _server } {}
+session::session(io_context& service, server* _server) : p_socket{ service }, p_origin{ _server } {}
 
 void session::listen() {
     auto handler = std::bind(&session::handle_read, shared_from_this(), _1, _2);

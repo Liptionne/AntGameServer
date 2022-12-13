@@ -19,7 +19,7 @@ class session : public std::enable_shared_from_this<session> {
     using socket_t = boost::asio::ip::tcp::socket;
 
 public:
-    session(boost::asio::io_service& service, server* _server);
+    session(boost::asio::io_context& service, server* _server);
 
     /**
      * Start reading from the socket.
