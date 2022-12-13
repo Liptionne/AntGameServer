@@ -50,4 +50,6 @@ private:
      * Buffer to be used for r/w operations.
      */
     char buffer_[1024];
+
+    boost::asio::streambuf buffer12{ 1024 };
 };

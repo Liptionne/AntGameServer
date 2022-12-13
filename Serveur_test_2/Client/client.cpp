@@ -16,8 +16,8 @@ void Client::join(std::shared_ptr<tcp::socket> socket_) {
    
     boost::system::error_code error;
 
-    std::string message_to_send = JSON::createJoin(p_uuid, 1);
-   //std::cout << "on envoi ca :" << message_to_send << std::endl;
+    std::string message_to_send = JSON::createJoin(p_uuid, 1) + "#";
+    std::cout << "on envoi ca :" << message_to_send << std::endl;
 
     //boost::asio::write(*socket_, boost::asio::buffer(message_to_send), error);
     auto handler = std::bind(&Client::handle_write, shared_from_this(), _1);
@@ -44,10 +44,10 @@ void Client::move(std::shared_ptr<tcp::socket> socket_, std::string _move)
 {
     boost::system::error_code error;
 
-    std::string message_to_send = JSON::createMove(p_uuid, _move);
+    std::string message_to_send = JSON::createMove(p_uuid, _move) + "#";
     //std::cout << "on envoi ca :" << message_to_send << std::endl;
-
-    boost::asio::write(*socket_, boost::asio::buffer(message_to_send), error);
+    auto handler = std::bind(&Client::handle_write, shared_from_this(), _1);
+    p_socket->async_write_some(boost::asio::buffer(message_to_send, message_to_send.size()), handler);
 
     if (!error) {
         std::cout << "Send successfull" << std::endl;

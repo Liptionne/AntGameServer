@@ -26,8 +26,10 @@ using std::placeholders::_2;
 session::session(io_context& service, server* _server) : p_socket{ service }, p_origin{ _server } {}
 
 void session::listen() {
+    
     auto handler = std::bind(&session::handle_read, shared_from_this(), _1, _2);
-    p_socket.async_read_some(buffer(buffer_), handler);
+    //p_socket.async_read_some(buffer(buffer_), handler);
+    boost::asio::async_read_until(p_socket, buffer12, '#', handler);
 }
 
 void session::handle_read(const error_code& ec, size_t bytes_transferred) {
@@ -39,8 +41,14 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         throw system_error{ ec };
     }
     
-    std::string string(buffer_, buffer_ + bytes_transferred);
-    std::cout << string << std::endl;
+    boost::asio::streambuf::const_buffers_type bufs = buffer12.data();
+    buffer12.consume(1024);
+    std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
+    std::string string = str.substr(0, bytes_transferred - 1);
+    std::cout <<"hellooooooo\n" << string << std::endl;
+    
+    //std::string string(buffer_, buffer_ + bytes_transferred-1);
+    //std::cout << string << std::endl;
     
     boost::property_tree::ptree root;
     std::stringstream ss;
