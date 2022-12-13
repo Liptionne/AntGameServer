@@ -23,13 +23,21 @@ using boost::system::system_error;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
-session::session(io_context& service, server* _server) : p_socket{ service }, p_origin{ _server } {}
+session::session(io_context& service, server* _server) : p_socket{ service }, p_origin{ _server } {
+    message123 = "coucou du serveur #";
+}
 
 void session::listen() {
     
     auto handler = std::bind(&session::handle_read, shared_from_this(), _1, _2);
-    //p_socket.async_read_some(buffer(buffer_), handler);
-    boost::asio::async_read_until(p_socket, buffer12, '#', handler);
+    boost::asio::async_read_until(p_socket, buffer, '#', handler);
+}
+
+void session::handle_write(const std::error_code& ec)
+{
+    if (ec) {
+        throw system_error{ ec };
+    }
 }
 
 void session::handle_read(const error_code& ec, size_t bytes_transferred) {
@@ -41,14 +49,13 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         throw system_error{ ec };
     }
     
-    boost::asio::streambuf::const_buffers_type bufs = buffer12.data();
-    buffer12.consume(1024);
+    boost::asio::streambuf::const_buffers_type bufs = buffer.data();
+    buffer.consume(1024);
     std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
     std::string string = str.substr(0, bytes_transferred - 1);
-    std::cout <<"hellooooooo\n" << string << std::endl;
     
-    //std::string string(buffer_, buffer_ + bytes_transferred-1);
-    //std::cout << string << std::endl;
+    
+    
     
     boost::property_tree::ptree root;
     std::stringstream ss;
@@ -65,6 +72,10 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         int difficulty = JSON::getDifficultyJoin(root);
         //std::cout << "difficulty" << difficulty << std::endl;
         p_origin->matchmaking(difficulty, UUID,shared_from_this());
+        
+        std::cout << "serveur envoi " << message123 << std::endl;
+        auto handler_write = std::bind(&session::handle_write, shared_from_this(), _1);
+        p_socket.async_write_some(boost::asio::buffer(message123, message123.size()), handler_write);
     }
     else if(type == "move") {
         
@@ -72,7 +83,6 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
 
         boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
         std::string MOVE = JSON::getMove(root);
-        std::cout << MOVE << std::endl;
         p_origin->getGame(UUID).move(UUID, MOVE);
 
 

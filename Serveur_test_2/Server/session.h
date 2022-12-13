@@ -27,6 +27,7 @@ public:
     void listen();
     
 
+    void handle_write(const std::error_code& ec);
     /**
      * Callback for socket reads.
      */
@@ -49,7 +50,8 @@ private:
     /**
      * Buffer to be used for r/w operations.
      */
-    char buffer_[1024];
 
-    boost::asio::streambuf buffer12{ 1024 };
+    boost::asio::streambuf buffer{ 1024 };
+    std::string message123;
+
 };

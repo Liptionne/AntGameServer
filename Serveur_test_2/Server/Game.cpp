@@ -40,7 +40,7 @@ void game::join(const boost::uuids::uuid& _player_uuid)
 
 void game::move(const boost::uuids::uuid& _player, std::string _move)
 {
-	std::cout << "yo move" << std::endl;
+	std::cout << "Fonction game.move" << std::endl;
 	int i = 0;
 	while (players[i].p_uuid != _player) {
 		i++;
