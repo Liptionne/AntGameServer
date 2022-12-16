@@ -28,7 +28,7 @@ session::session(io_context& service, server* _server) : p_socket{ service }, p_
 }
 
 void session::listen() {
-    
+    std::cout << "ecoute session" << std::endl;
     auto handler = std::bind(&session::handle_read, shared_from_this(), _1, _2);
     boost::asio::async_read_until(p_socket, buffer, '#', handler);
 }
@@ -85,7 +85,9 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         std::string MOVE = JSON::getMove(root);
         p_origin->getGame(UUID).move(UUID, MOVE);
 
-
+        std::cout << "serveur envoi " << message123 << std::endl;
+        auto handler_write = std::bind(&session::handle_write, shared_from_this(), _1);
+        p_socket.async_write_some(boost::asio::buffer(message123, message123.size()), handler_write);
         
     }
     listen();

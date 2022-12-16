@@ -18,26 +18,27 @@ using std::placeholders::_1;
 using std::placeholders::_2;
 
 
-Client::Client(std::string _adress, short _port) {
-    p_socket_client = std::make_shared<tcp::socket>(p_io_context);
-    p_socket_client->connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
+Client::Client(boost::asio::io_context& io_context1, std::string _adress, short _port) : p_io_context{ io_context1 }, p_socket_client{ io_context1 } {
+    
+    p_socket_client.connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
     p_uuid = NULL_UUID;
-    listen_client();
+    //listen_client();
+    
 }
 
-void Client::join(std::shared_ptr<tcp::socket> socket_) {
+void Client::join() {
    
     boost::system::error_code error;
 
     std::string message_to_send = JSON::createJoin(p_uuid, 1) + "#";
    
 
-    //boost::asio::write(*socket_, boost::asio::buffer(message_to_send), error);
-    auto handler = std::bind(&Client::handle_write_client, shared_from_this(), _1);
-    p_socket_client->async_write_some(boost::asio::buffer(message_to_send, message_to_send.size()), handler);
+    auto handler = std::bind(&Client::handle_write_client, this, _1);
+    p_socket_client.async_write_some(boost::asio::buffer(message_to_send, message_to_send.size()), handler);
+    p_io_context.run();
     if (!error) {
         //std::cout << "Send successfull" << std::endl;
-        listen_client();
+        //listen_client();
     }
 
     else {
@@ -55,15 +56,15 @@ void Client::handle_write_client(const std::error_code& ec) {
 
 
 
-void Client::move(std::shared_ptr<tcp::socket> socket_, std::string _move)
+void Client::move(std::string _move)
 {
     boost::system::error_code error;
 
     std::string message_to_send = JSON::createMove(p_uuid, _move) + "#";
-    //std::cout << "on envoi ca :" << message_to_send << std::endl;
-    auto handler = std::bind(&Client::handle_write_client, shared_from_this(), _1);
-    p_socket_client->async_write_some(boost::asio::buffer(message_to_send, message_to_send.size()), handler);
-
+    std::cout << "on envoi ca :" << message_to_send << std::endl;
+    auto handler = std::bind(&Client::handle_write_client, this, _1);
+    p_socket_client.async_write_some(boost::asio::buffer(message_to_send, message_to_send.size()), handler);
+    p_io_context.run();
     if (!error) {
         //std::cout << "Send successfull" << std::endl;
     }
@@ -77,7 +78,8 @@ void Client::listen_client()
 {
     std::cout << "debut ecoute client" << std::endl;
     auto handler_listen = std::bind(&Client::handle_read_client, this, _1, _2);
-    boost::asio::async_read_until((*p_socket_client), p_buffer, '#', handler_listen);
+    boost::asio::async_read_until(p_socket_client, p_buffer, '#', handler_listen);
+    p_io_context.run();
 }
 
 void Client::handle_read_client(const boost::system::error_code& ec,

@@ -11,10 +11,12 @@ void test() { //Juste pour faire le test de l'envoi du JSON join de la part du c
     std::this_thread::sleep_for(std::chrono::milliseconds(2000)); //on attend un peu pour etre sur que tout est bien initialisé
     std::string adress = "127.0.0.1";
     short port = 9999;
-    std::shared_ptr<Client> client1 = std::make_shared<Client>(adress, port);
-    client1->join(client1->getSocket());
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    //client1->move(client1->getSocket(),"haut");
+    boost::asio::io_context io_context1;
+    Client client1{ io_context1, adress, port };
+    
+    client1.join();
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    client1.move("haut");
     
 }
 
