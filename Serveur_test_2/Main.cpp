@@ -17,6 +17,8 @@ void test() { //Juste pour faire le test de l'envoi du JSON join de la part du c
     client1.join();
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     client1.move("haut");
+
+    io_context1.run();
     
 }
 

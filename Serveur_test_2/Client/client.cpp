@@ -22,7 +22,7 @@ Client::Client(boost::asio::io_context& io_context1, std::string _adress, short 
     
     p_socket_client.connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
     p_uuid = NULL_UUID;
-    //listen_client();
+    
     
 }
 
@@ -31,14 +31,11 @@ void Client::join() {
     boost::system::error_code error;
 
     std::string message_to_send = JSON::createJoin(p_uuid, 1) + "#";
-   
 
-    auto handler = std::bind(&Client::handle_write_client, this, _1);
-    p_socket_client.async_write_some(boost::asio::buffer(message_to_send, message_to_send.size()), handler);
-    p_io_context.run();
+    boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {
-        //std::cout << "Send successfull" << std::endl;
-        //listen_client();
+        std::cout << "JOIN SENT" << std::endl;
+        listen_client();
     }
 
     else {
@@ -46,14 +43,6 @@ void Client::join() {
     }
 
 }
-void Client::handle_write_client(const std::error_code& ec) {
-    if (ec) {
-        throw system_error{ ec };
-    }
-    listen_client();
-
-}
-
 
 
 void Client::move(std::string _move)
@@ -62,11 +51,10 @@ void Client::move(std::string _move)
 
     std::string message_to_send = JSON::createMove(p_uuid, _move) + "#";
     std::cout << "on envoi ca :" << message_to_send << std::endl;
-    auto handler = std::bind(&Client::handle_write_client, this, _1);
-    p_socket_client.async_write_some(boost::asio::buffer(message_to_send, message_to_send.size()), handler);
-    p_io_context.run();
+    boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {
-        //std::cout << "Send successfull" << std::endl;
+        std::cout << "MOVE SENT" << std::endl;
+        listen_client();
     }
 
     else {
@@ -80,6 +68,7 @@ void Client::listen_client()
     auto handler_listen = std::bind(&Client::handle_read_client, this, _1, _2);
     boost::asio::async_read_until(p_socket_client, p_buffer, '#', handler_listen);
     p_io_context.run();
+    p_io_context.reset();
 }
 
 void Client::handle_read_client(const boost::system::error_code& ec,
