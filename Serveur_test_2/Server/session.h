@@ -39,7 +39,11 @@ public:
      */
     socket_t& socket() { return p_socket; }
 
-    server* getServer() { return p_origin; }    
+    server* getServer() { return p_origin; }   
+
+    void setGame(game* _game) { p_game = _game; }
+
+    game* p_game;
 
 private:
     /**
@@ -47,11 +51,12 @@ private:
      */
     socket_t p_socket;
     server* p_origin;
+    
     /**
      * Buffer to be used for r/w operations.
      */
 
-    boost::asio::streambuf buffer{ 1024 };
-    std::string message123;
+    boost::asio::streambuf buffer{ 2048 };
+    
 
 };

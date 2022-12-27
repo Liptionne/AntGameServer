@@ -18,7 +18,7 @@ namespace JSON {
 
 	std::string getMove(const boost::property_tree::ptree& root);
 
-	void getMaze(const boost::property_tree::ptree& root, Maze* _maze);
+	Maze* getMaze(const boost::property_tree::ptree& root);
 
 	std::vector <float> getPheromons(const boost::property_tree::ptree& root);
 

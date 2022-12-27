@@ -52,6 +52,8 @@ game server::getGame(const boost::uuids::uuid& _uuid)
 
 void server::handle_accept( std::shared_ptr<session> new_session,
     const boost::system::error_code& ec) {
+
+    std::cout << "creation" << std::endl;
     if (ec) {
         throw system_error{ ec };
     }
@@ -68,6 +70,7 @@ void server::matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_
         _games.insert(_games.begin() + (_difficulty - 1), newgame);
     }
     game_.join(_uuid);
+    _session->setGame(&game_);
     _players_games.push_back(std::pair(_uuid,game_));
 }
 

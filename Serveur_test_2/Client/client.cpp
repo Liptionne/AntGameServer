@@ -5,6 +5,9 @@
 #include <iostream>
 #include <thread>
 
+#include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 
 using boost::asio::async_write;
 using boost::asio::buffer;
@@ -54,7 +57,7 @@ void Client::move(std::string _move)
     boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {
         std::cout << "MOVE SENT" << std::endl;
-        listen_client();
+        //listen_client();
     }
 
     else {
@@ -67,8 +70,6 @@ void Client::listen_client()
     std::cout << "debut ecoute client" << std::endl;
     auto handler_listen = std::bind(&Client::handle_read_client, this, _1, _2);
     boost::asio::async_read_until(p_socket_client, p_buffer, '#', handler_listen);
-    p_io_context.run();
-    p_io_context.reset();
 }
 
 void Client::handle_read_client(const boost::system::error_code& ec,
@@ -83,8 +84,23 @@ void Client::handle_read_client(const boost::system::error_code& ec,
     }
 
     boost::asio::streambuf::const_buffers_type bufs =p_buffer.data();
-    p_buffer.consume(1024);
+    p_buffer.consume(bytes_transferred);
     std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
-    std::string string123456 = str.substr(0, bytes_transferred - 1);
-    std::cout << "client a reçu" << string123456 << std::endl;
+    std::string received_message = str.substr(0, bytes_transferred - 1);
+    std::cout << "client RECOIT " << received_message << std::endl;
+    std::cout << "TAILLE DU MESSAGE CLIENT RECU" << received_message.size() << std::endl;
+    boost::property_tree::ptree root;
+    std::stringstream ss;
+    ss << received_message;
+    boost::property_tree::read_json(ss, root);
+    std::string type = JSON::getType(root);
+
+    if (type == "okMaze") {
+        p_uuid = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
+
+        setMaze(JSON::getMaze(root));
+        std::cout << "oui" << std::endl;
+    }
+
+
 }

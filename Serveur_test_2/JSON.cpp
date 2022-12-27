@@ -33,12 +33,17 @@ std::string JSON::getMove(const boost::property_tree::ptree& root)
     return root.get<std::string>("body.move","0");
 }
 
-void JSON::getMaze(const boost::property_tree::ptree& root, Maze* _maze)
+Maze* JSON::getMaze(const boost::property_tree::ptree& root)
 {
-    _maze->nbColumn = stoi(root.get<std::string>("body.maze.nbColumn", "0"));
-    _maze->nbLine = stoi(root.get<std::string>("body.maze.nbLine", "0"));
-    _maze->nestColumn = stoi(root.get<std::string>("body.maze.nestColumn", "0"));
-    _maze->nestLine = stoi(root.get<std::string>("body.maze.nestLine", "0"));
+
+    Maze _maze = { 0 };
+    _maze.nbColumn = stoi(root.get<std::string>("body.maze.nbColumn", "0"));
+    _maze.nbLine = stoi(root.get<std::string>("body.maze.nbLine", "0"));
+    _maze.nestColumn = stoi(root.get<std::string>("body.maze.nestColumn", "0"));
+    _maze.nestLine = stoi(root.get<std::string>("body.maze.nestLine", "0"));
+
+    _maze.tiles = (uint8_t*)malloc(sizeof(uint8_t*) * _maze.nbLine * _maze.nbColumn);
+
     std::string towork = root.get<std::string>("body.maze.tiles", "0");
 
     char* ptr;    
@@ -47,11 +52,11 @@ void JSON::getMaze(const boost::property_tree::ptree& root, Maze* _maze)
     int i = 0;
     while (ptr != NULL)
     {
-        _maze->tiles[i] = ((uint8_t)atoi(ptr));
+        _maze.tiles[i] = ((uint8_t)atoi(ptr));
         i++;
         ptr = strtok(NULL, " , ");
     }
-    
+    return &_maze;
 }
 
 std::vector<float> JSON::getPheromons(const boost::property_tree::ptree& root)

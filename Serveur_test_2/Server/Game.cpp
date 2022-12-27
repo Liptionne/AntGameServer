@@ -7,6 +7,7 @@
 
 game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_maze) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
+	std::cout << "creation game" << std::endl;
 	//créer le labyrinthe
 	ParamMaze parameters_maze;
 	
@@ -34,7 +35,6 @@ void game::join(const boost::uuids::uuid& _player_uuid)
 
 	players.push_back(player_to_add);
 	Actual_players += 1;
-	std::string coucou = JSON::createokMaze(_player_uuid,*p_Maze);
 	
 }
 
