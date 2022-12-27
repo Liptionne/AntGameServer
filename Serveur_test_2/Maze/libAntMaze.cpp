@@ -33,7 +33,7 @@ EXPORT_C Maze* generateMaze(const ParamMaze* param) {
 	uint32_t difficulty = param->difficulty;
 	CMaze* mazeClass = CMaze_new_with_param(nbLine, nbColumn, nestLine, nestColumn, nbFood, difficulty, algoToUse);
 	Maze* mazeStruct = CMaze_convertToMazeStruct(mazeClass);
-	mazeClass->printMaze();
+	//mazeClass->printMaze();
 	return mazeStruct;
 	
 	//return nullptr;

@@ -45,6 +45,8 @@ void Client::join() {
         std::cout << "send failed: " << error.message() << std::endl;
     }
 
+    p_io_context.run();
+
 }
 
 
@@ -63,6 +65,7 @@ void Client::move(std::string _move)
     else {
         std::cout << "send failed: " << error.message() << std::endl;
     }
+    p_io_context.run();
 }
 
 void Client::listen_client()
@@ -88,7 +91,7 @@ void Client::handle_read_client(const boost::system::error_code& ec,
     std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
     std::string received_message = str.substr(0, bytes_transferred - 1);
     std::cout << "client RECOIT " << received_message << std::endl;
-    std::cout << "TAILLE DU MESSAGE CLIENT RECU" << received_message.size() << std::endl;
+   
     boost::property_tree::ptree root;
     std::stringstream ss;
     ss << received_message;
@@ -99,7 +102,7 @@ void Client::handle_read_client(const boost::system::error_code& ec,
         p_uuid = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
 
         setMaze(JSON::getMaze(root));
-        std::cout << "oui" << std::endl;
+        
     }
 
 

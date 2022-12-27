@@ -8,6 +8,9 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
+
 
 #include "server.h"
 #include "Game.h"
@@ -24,11 +27,11 @@ using std::placeholders::_1;
 using std::placeholders::_2;
 
 session::session(io_context& service, server* _server) : p_socket{ service }, p_origin{ _server } {
-    std::cout << "new session" << std::endl;
+    
 }
 
 void session::listen() {
-    buffer.prepare(2048);
+    
     auto handler = std::bind(&session::handle_read, shared_from_this(), _1, _2);
     boost::asio::async_read_until(p_socket, buffer, '#', handler);
 }
@@ -68,19 +71,27 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
     //travaille avec le propertry tree
     
     std::string type = JSON::getType(root);
+    
     if (type == "join"){
+        
         std::cout << "JOIN" << std::endl;
+        
         boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
+        
+        
+        if (UUID.is_nil()) {
+            UUID = boost::uuids::random_generator()();
+        }
         
         int difficulty = JSON::getDifficultyJoin(root);
         
         p_origin->matchmaking(difficulty, UUID,shared_from_this());
+        
         std::string JSONokMaze = JSON::createokMaze(UUID,*(p_game->getMaze())) + "#";
         std::cout << "serveur envoi " << JSONokMaze << std::endl;
         std::cout << "taille du paquet " << JSONokMaze.size() << std::endl;
         boost::system::error_code error;
         boost::asio::write(p_socket, boost::asio::buffer(JSONokMaze), error);
-        //p_socket.async_write_some(boost::asio::buffer(JSONokMaze, JSONokMaze.size()), handler_write);
     }
     else if(type == "move") {
         
