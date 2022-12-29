@@ -1,6 +1,6 @@
 #pragma once
 #include <boost/property_tree/ptree.hpp>
-#include <boost/uuid/uuid.hpp>  
+#include <boost/uuid/uuid.hpp>            // uuid class
 #include <vector>
 #include <iostream>
 #include "Maze/libAntMaze.h"

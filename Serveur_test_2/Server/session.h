@@ -41,9 +41,9 @@ public:
 
     server* getServer() { return p_origin; }   
 
-    void setGame(game* _game) { p_game = _game; }
+    //void setGame(game* _game) { p_game = _game; }
 
-    game* p_game;
+    //game* p_game;
 
 private:
     /**

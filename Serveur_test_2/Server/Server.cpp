@@ -70,7 +70,7 @@ void server::matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_
         _games.insert(_games.begin() + (_difficulty - 1), newgame);
     }
     game_.join(_uuid);
-    _session->setGame(&game_);
+    //_session->setGame(&game_);
     _players_games.push_back(std::pair(_uuid,game_));
 }
 

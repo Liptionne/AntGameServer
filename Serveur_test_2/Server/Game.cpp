@@ -17,8 +17,8 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 	parameters_maze.nestColumn = 19;
 	parameters_maze.difficulty = _difficulty;
 	p_Maze = generateMaze(&parameters_maze);
-	std::vector<float> vector1(_size_side_maze * _size_side_maze, 0.0);
-	p_pheromons = std::move(vector1);
+	//std::vector<float> vector1(_size_side_maze * _size_side_maze, 0.0);
+	//p_pheromons = std::move(vector1);
 	Actual_players = 0;
 	
 }
@@ -56,6 +56,28 @@ void game::move(const boost::uuids::uuid& _player, std::string _move)
 	}
 	if (_move == "droite") {
 		(players[i].actual_column) += 1;
+	}
+
+	/* Si la tile sur laquelle se teouve le joueur est entre 16 compris et 32 alors il est sur une case nourriture
+	 Daans une liste, pour representer un tableau, l'index de la liste avec deux coordonées d'un tableau, l'index vaut le nombre de cases
+	déjà complètes (donc le nombre de lignes complètes : actual_Line * le nombre de case par lignes : nbColumn)
+					+ le nombres de cases de la ligne imcomplète (+ actualColumn)*/
+
+	if (16 <= p_Maze->tiles[players[i].actual_line * p_Maze->nbColumn + players[i].actual_column] < 32 && players[i].has_food == false) {
+		players[i].has_food == true;
+	}
+
+	// Si la case du jouer est la case Nest et qu'il a de la nourriture, alors il dépose se nourriture et ne l'as plus
+
+	if (players[i].actual_column == p_Maze->nestColumn && players[i].actual_line == p_Maze->nestLine && players[i].has_food == true) {
+		players[i].has_food == false;
+	}
+
+	/* Si le joueur a de la nourriture à ce moment du code, cela veut dire qu'il nest pas sur un nid, 
+	donc on augmente la valeur en phreromone de la case */
+
+	if (players[i].has_food == true) {
+		p_pheromons[players[i].actual_line * p_Maze->nbColumn + players[i].actual_column] += 1.0;
 	}
 	
 

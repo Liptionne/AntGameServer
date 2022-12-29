@@ -8,7 +8,6 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 
 
@@ -87,7 +86,7 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         
         p_origin->matchmaking(difficulty, UUID,shared_from_this());
         
-        std::string JSONokMaze = JSON::createokMaze(UUID,*(p_game->getMaze())) + "#";
+        std::string JSONokMaze = JSON::createokMaze(UUID,*(p_origin->getGame(UUID).getMaze())) + "#";
         std::cout << "serveur envoi " << JSONokMaze << std::endl;
         std::cout << "taille du paquet " << JSONokMaze.size() << std::endl;
         boost::system::error_code error;
