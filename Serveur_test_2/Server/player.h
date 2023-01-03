@@ -11,7 +11,7 @@ struct Player {
 	int actual_column;
 	int actual_line;
 	bool has_food;
-	//std::shared_ptr<session> _session;
+	std::shared_ptr<session> _session;
 	
 };
 

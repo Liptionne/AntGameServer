@@ -86,11 +86,6 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         
         p_origin->matchmaking(difficulty, UUID,shared_from_this());
         
-        std::string JSONokMaze = JSON::createokMaze(UUID,*(p_origin->getGame(UUID).getMaze())) + "#";
-        std::cout << "serveur envoi " << JSONokMaze << std::endl;
-        std::cout << "taille du paquet " << JSONokMaze.size() << std::endl;
-        boost::system::error_code error;
-        boost::asio::write(p_socket, boost::asio::buffer(JSONokMaze), error);
     }
     else if(type == "move") {
         
@@ -104,6 +99,27 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         
     }
     listen();
+}
+
+void session::sendMaze(boost::uuids::uuid _uuid,Maze* _maze)
+{
+    std::string JSONokMaze = JSON::createokMaze(_uuid, *_maze) + "#";
+    std::cout << "serveur envoi " << JSONokMaze << std::endl;
+    std::cout << "taille du paquet " << JSONokMaze.size() << std::endl;
+    
+    boost::system::error_code error;
+    boost::asio::write(p_socket, boost::asio::buffer(JSONokMaze), error);
+
+}
+
+void session::sendPheromons(boost::uuids::uuid _uuid,const std::vector<float>& _pheromons)
+{
+    std::string JSONInfo = JSON::createInfo(_uuid, _pheromons);
+    std::cout << "serveur envoi " << JSONInfo << std::endl;
+    std::cout << "taille du paquet " << JSONInfo.size() << std::endl;
+
+    boost::system::error_code error;
+    boost::asio::write(p_socket, boost::asio::buffer(JSONInfo), error);
 }
 
 

@@ -4,10 +4,12 @@
 #include <memory>
 
 #include <boost/asio.hpp>
+#include <boost/uuid/uuid.hpp>
 
 
 class game;
 class server;
+class Maze;
 
 
 /**
@@ -34,6 +36,9 @@ public:
     void handle_read(const boost::system::error_code& ec,
         size_t bytes_transferred);
 
+    void sendMaze(boost::uuids::uuid _uuid, Maze* _maze);
+
+    void sendPheromons(boost::uuids::uuid _uuid,const std::vector<float>& _pheromons);
     /**
      * Get a reference to the session socket.
      */
