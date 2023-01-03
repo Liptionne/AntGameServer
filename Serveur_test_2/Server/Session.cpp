@@ -95,7 +95,8 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         std::string MOVE = JSON::getMove(root);
         
         p_origin->getGame(UUID).move(UUID, MOVE);
-        
+        std::vector<float> vector1(400, 0.0);
+        sendPheromons(UUID, vector1);
         
     }
     listen();
@@ -114,12 +115,15 @@ void session::sendMaze(boost::uuids::uuid _uuid,Maze* _maze)
 
 void session::sendPheromons(boost::uuids::uuid _uuid,const std::vector<float>& _pheromons)
 {
-    std::string JSONInfo = JSON::createInfo(_uuid, _pheromons);
+    std::string JSONInfo = JSON::createInfo(_uuid, _pheromons) + "#";
     std::cout << "serveur envoi " << JSONInfo << std::endl;
     std::cout << "taille du paquet " << JSONInfo.size() << std::endl;
 
     boost::system::error_code error;
     boost::asio::write(p_socket, boost::asio::buffer(JSONInfo), error);
+    if (error) {
+        std::cout << "send failed: " << error.message() << std::endl;
+    }
 }
 
 

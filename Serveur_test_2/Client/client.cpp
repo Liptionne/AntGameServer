@@ -46,6 +46,7 @@ void Client::join() {
     }
 
     p_io_context.run();
+    p_io_context.reset();
 
 }
 
@@ -59,13 +60,14 @@ void Client::move(std::string _move)
     boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {
         std::cout << "MOVE SENT" << std::endl;
-        //listen_client();
+        listen_client();
     }
 
     else {
         std::cout << "send failed: " << error.message() << std::endl;
     }
     p_io_context.run();
+    p_io_context.reset();
 }
 
 void Client::listen_client()
@@ -104,6 +106,6 @@ void Client::handle_read_client(const boost::system::error_code& ec,
         setMaze(JSON::getMaze(root));
         
     }
-
+    //listen_client();
 
 }
