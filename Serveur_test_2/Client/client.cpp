@@ -25,6 +25,7 @@ Client::Client(boost::asio::io_context& io_context1, std::string _adress, short 
     
     p_socket_client.connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
     p_uuid = NULL_UUID;
+    listen_client();
     
     
 }
@@ -38,15 +39,14 @@ void Client::join() {
     boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {
         std::cout << "JOIN SENT" << std::endl;
-        listen_client();
+        
     }
 
     else {
         std::cout << "send failed: " << error.message() << std::endl;
     }
 
-    p_io_context.run();
-    p_io_context.reset();
+    
 
 }
 
@@ -60,14 +60,12 @@ void Client::move(std::string _move)
     boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {
         std::cout << "MOVE SENT" << std::endl;
-        listen_client();
     }
 
     else {
         std::cout << "send failed: " << error.message() << std::endl;
     }
-    p_io_context.run();
-    p_io_context.reset();
+    
 }
 
 void Client::listen_client()
@@ -88,7 +86,7 @@ void Client::handle_read_client(const boost::system::error_code& ec,
         throw system_error{ ec };
     }
 
-    boost::asio::streambuf::const_buffers_type bufs =p_buffer.data();
+    boost::asio::streambuf::const_buffers_type bufs = p_buffer.data();
     p_buffer.consume(bytes_transferred);
     std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
     std::string received_message = str.substr(0, bytes_transferred - 1);
@@ -106,6 +104,6 @@ void Client::handle_read_client(const boost::system::error_code& ec,
         setMaze(JSON::getMaze(root));
         
     }
-    //listen_client();
+    listen_client();
 
 }
