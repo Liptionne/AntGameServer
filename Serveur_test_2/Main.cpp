@@ -29,7 +29,7 @@ void test() { //Juste pour faire le test de l'envoi du JSON join de la part du c
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     
     client1.move("haut");
-
+    std::this_thread::sleep_for(std::chrono::milliseconds(20000));
     t1.join();
 }
 
@@ -42,10 +42,26 @@ int main() {
 
     server s{ context, port };
 
+    // -------------------------------------------------------------------------
+
     auto t1 = std::thread([&]
         {
             context.run();
         });
+
+    // -------------------------------------------------------------------------
+
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        
+        //update all games
+        for (game game : s._games) {
+            game.decreasePheromons();
+        }
+    }
+
+    // -------------------------------------------------------------------------
+
     thread_client.join();
     t1.join();
     return 0;

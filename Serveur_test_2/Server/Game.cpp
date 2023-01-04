@@ -43,6 +43,7 @@ void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session>
 	p_players.push_back(player_to_add);
 	p_actual_players += 1;
 	
+	
 	_session->sendMaze(_player_uuid, p_Maze);
 }
 
@@ -111,15 +112,15 @@ void game::decreasePheromons()
 	- players[i].session.sendInfo(vector)
 	*/
 
-
 	// On fait decroitre la valeur de chaque case
-	for (int i = 0; i <= numberOfTiles; i++) {
+	for (int i = 0; i < numberOfTiles; i++) {
 		p_pheromons[i] = (1 - PHEROMON_DECREASE_AMOUNT) * p_pheromons[i];
 	}
 
 	//Puis on envoi ce vecteur à chaque joueur.
 
-	for (int j = 0; j <= p_actual_players; j++) {
-		p_players[j]._session;
+	for (int j = 0; j < p_actual_players; j++) {
+		std::cout << "coucou" << std::endl;
+		p_players[j]._session->sendPheromons(p_players[j].p_uuid,p_pheromons);
 	}
 }

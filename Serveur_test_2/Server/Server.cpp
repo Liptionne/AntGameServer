@@ -64,8 +64,9 @@ void server::handle_accept( std::shared_ptr<session> new_session,
 
 void server::matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session)
 {
-    game game_ = _games[_difficulty - 1];
+    game& game_ = _games[_difficulty - 1];
     if (game_.getMax_Players() == game_.getNb_Players()) {
+        std::cout << "new game matchmaking" << std::endl;
         game newgame(_difficulty, 10,20);
         _games.insert(_games.begin() + (_difficulty - 1), newgame);
     }
