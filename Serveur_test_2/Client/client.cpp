@@ -27,14 +27,13 @@ Client::Client(boost::asio::io_context& io_context1, std::string _adress, short 
     p_uuid = NULL_UUID;
     listen_client();
     
-    
 }
 
-void Client::join() {
+void Client::join(int _difficulty) {
    
     boost::system::error_code error;
 
-    std::string message_to_send = JSON::createJoin(p_uuid, 1) + "#";
+    std::string message_to_send = JSON::createJoin(p_uuid, _difficulty) + "#";
 
     boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {

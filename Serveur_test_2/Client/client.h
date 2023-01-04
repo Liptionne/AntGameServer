@@ -60,8 +60,9 @@ public:
 
     /**
      * @brief Sends a join request to the server.
+     * @param _difficulty The desired difficulty of the game.
      */
-    void join();
+    void join(int _difficulty);
 
     /**
      * @brief Handles the completion of a write operation.

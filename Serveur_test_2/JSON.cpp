@@ -1,19 +1,10 @@
-/** 
- * @file JSON.h
- * @brief Header file for the JSON class
- * @author Gautier
- * @date 04-01-2022
-*/
+
 
 #include "JSON.h"
 #include "constants.h"
 #include "boost/uuid/uuid_io.hpp"
 #include <boost/property_tree/json_parser.hpp>
-/**
- * @brief Get the UUID from the JSON ptree
- * @param root The ptree to search in
- * @return The UUID as a string
-*/
+
 
 std::string JSON::getUUID(const boost::property_tree::ptree& root) {
 
@@ -21,40 +12,23 @@ std::string JSON::getUUID(const boost::property_tree::ptree& root) {
 	return root.get<std::string>("body.playerId", "99");
 }
 
-/**
- * @brief Get the type from the JSON ptree
- * @param root The ptree to search in
- * @return The type as a string
-*/
 
 std::string JSON::getType(const boost::property_tree::ptree& root)
 {
 	return (root.get<std::string>("type", "0"));
 
 }
-/**
- * @brief Get the difficulty from the JSON ptree
- * @param root The ptree to search in
- * @return The difficulty as an integer
-*/
+
 int JSON::getDifficultyJoin(const boost::property_tree::ptree& root)
 {
 	return stoi(root.get<std::string>("body.difficulty", "0"));
 }
-/**
- * @brief Get the move from the JSON ptree
- * @param root The ptree to search in
- * @return The move as a string
-*/
+
 std::string JSON::getMove(const boost::property_tree::ptree& root)
 {
 	return root.get<std::string>("body.move", "0");
 }
-/**
- * @brief Get the maze from the JSON ptree
- * @param root The ptree to search in
- * @return The maze as a pointer to a Maze object
-*/
+
 Maze* JSON::getMaze(const boost::property_tree::ptree& root)
 {
 
@@ -78,13 +52,10 @@ Maze* JSON::getMaze(const boost::property_tree::ptree& root)
 		i++;
 		ptr = strtok(NULL, " , ");
 	}
+	
 	return &_maze;
 }
-/**
- * @brief Get the pheromons from the JSON ptree
- * @param root The ptree to search in
- * @return The pheromons as a vector of floats
-*/
+
 std::vector<float> JSON::getPheromons(const boost::property_tree::ptree& root)
 {
 	std::string towork = root.get<std::string>("body.pheromon", "0");
@@ -106,10 +77,7 @@ std::vector<float> JSON::getPheromons(const boost::property_tree::ptree& root)
 	}
 	return vect_to_return;
 }
-/**
- * @brief Load the global options from a JSON file
- * @param _path The path to the JSON file
-*/
+
 void JSON::LoadOptionFile(std::string _path)
 {
 	boost::property_tree::ptree root;
@@ -141,12 +109,7 @@ void JSON::LoadOptionFile(std::string _path)
 	Constants::SERVER_PORT = root.get<unsigned short>("ServerPort", 9999);
 }
 
-/**
- * @brief Create a JSON string with a given UUID and root ptree
- * @param _uuid The UUID to include in the JSON string
- * @param _root The ptree to include in the JSON string
- * @return The created JSON string
-*/
+
 std::string JSON::createGeneric(boost::uuids::uuid _uuid, boost::property_tree::ptree _root) {
 
 	_root.put("body.playerId", _uuid);
@@ -154,12 +117,6 @@ std::string JSON::createGeneric(boost::uuids::uuid _uuid, boost::property_tree::
 	boost::property_tree::write_json(ss, _root);
 	return ss.str();
 }
-/**
- * @brief Create a "join" JSON string with a given UUID and difficulty
- * @param _uuid The UUID to include in the JSON string
- * @param _difficulty The difficulty to include in the JSON string
- * @return The created "join" JSON string
-*/
 
 std::string JSON::createJoin(boost::uuids::uuid _uuid, int _difficulty)
 {
@@ -168,12 +125,7 @@ std::string JSON::createJoin(boost::uuids::uuid _uuid, int _difficulty)
 	root.put("body.difficulty", _difficulty);
 	return createGeneric(_uuid, root);
 }
-/**
- * @brief Create a "move" JSON string with a given UUID and move
- * @param _uuid The UUID to include in the JSON string
- * @param _move The move to include in the JSON string
- * @return The created "move" JSON string
-*/
+
 std::string JSON::createMove(boost::uuids::uuid _uuid, std::string _move)
 {
 	boost::property_tree::ptree root;
@@ -181,12 +133,7 @@ std::string JSON::createMove(boost::uuids::uuid _uuid, std::string _move)
 	root.put("body.move", _move);
 	return createGeneric(_uuid, root);
 }
-/**
- * @brief Create a "okMaze" JSON string with a given UUID and maze
- * @param _uuid The UUID to include in the JSON string
- * @param _maze The maze to include in the JSON string
- * @return The created "okMaze" JSON string
-*/
+
 std::string JSON::createokMaze(boost::uuids::uuid _uuid, Maze _maze)
 {
 	boost::property_tree::ptree root;
@@ -207,12 +154,6 @@ std::string JSON::createokMaze(boost::uuids::uuid _uuid, Maze _maze)
 	return createGeneric(_uuid, root);
 }
 
-/**
- * @brief Creates a JSON message with information about pheromons.
- * @param _uuid The UUID of the message.
- * @param _pheromons A vector of pheromons.
- * @return A string containing the JSON message.
- */
 
 std::string JSON::createInfo(boost::uuids::uuid _uuid, std::vector<float> _pheromons)
 {
