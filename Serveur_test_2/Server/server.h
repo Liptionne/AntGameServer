@@ -49,6 +49,12 @@ public:
     game* getGame(const boost::uuids::uuid& _uuid);
 
     /**
+     * @brief Returns a list of available games.
+     * @return A vector of `game` objects.
+     */
+    std::vector<game> getListofAvailaibleGames() { return _games; };
+
+    /**
      * @brief Handles the acceptance of a new session.
      * @param new_session The new session.
      * @param ec The error code of the operation.

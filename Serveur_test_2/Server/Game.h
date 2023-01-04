@@ -111,5 +111,5 @@ public:
      */
     std::vector<float> getPheromons() { return p_pheromons; };
 
-    
-}
+
+};

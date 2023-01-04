@@ -42,7 +42,7 @@ int main() {
 
     boost::asio::io_context context{};
 
-    server s{ context, Constants::SERVER_PORT };
+    server server{ context, Constants::SERVER_PORT };
 
     // -------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         
         //update all games and send pheromons vector to all connected players
-        for (game game : s._games) {
+        for (game game : server.getListofAvailaibleGames()) {
             game.decreasePheromons();
         }
     }
