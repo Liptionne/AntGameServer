@@ -34,5 +34,6 @@ public:
 	void stopGame();
 	Maze* getMaze() { return p_Maze; };
 	void decreasePheromons();
+	std::vector<float> getPheromons() { return p_pheromons; }
 };
 

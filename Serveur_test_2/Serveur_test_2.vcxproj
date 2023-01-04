@@ -45,7 +45,6 @@
     <ClCompile Include="Server\Session.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="JOIN.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

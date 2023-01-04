@@ -46,6 +46,8 @@ public:
 
     server* getServer() { return p_origin; }   
 
+    void sendString(std::string _message);
+
     //void setGame(game* _game) { p_game = _game; }
 
     //game* p_game;

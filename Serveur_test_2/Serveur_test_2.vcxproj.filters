@@ -104,9 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="JOIN.json">
-      <Filter>Fichiers sources</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Serveur_test_2.rc">
