@@ -16,7 +16,7 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 		parameters_maze.nbFood = Constants::DIFFICULTY1_NBFOOD;
 		parameters_maze.nestLine = Constants::DIFFICULTY1_NESTLINE;
 		parameters_maze.nestColumn = Constants::DIFFICULTY1_NESTCOLUMN;
-		numberOfTiles = Constants::DIFFICULTY1_SIDE_SIZE ^ 2;
+		numberOfTiles = Constants::DIFFICULTY1_SIDE_SIZE * Constants::DIFFICULTY1_SIDE_SIZE;
 	}
 
 	else if (_difficulty == 2) {
@@ -25,7 +25,7 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 		parameters_maze.nbFood = Constants::DIFFICULTY2_NBFOOD;
 		parameters_maze.nestLine = Constants::DIFFICULTY2_NESTLINE;
 		parameters_maze.nestColumn = Constants::DIFFICULTY2_NESTCOLUMN;
-		numberOfTiles = Constants::DIFFICULTY2_SIDE_SIZE ^ 2;
+		numberOfTiles = Constants::DIFFICULTY2_SIDE_SIZE * Constants::DIFFICULTY2_SIDE_SIZE;
 	}
 
 	else if (_difficulty == 3) {
@@ -34,7 +34,7 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 		parameters_maze.nbFood = Constants::DIFFICULTY3_NBFOOD;
 		parameters_maze.nestLine = Constants::DIFFICULTY3_NESTLINE;
 		parameters_maze.nestColumn = Constants::DIFFICULTY3_NESTCOLUMN;
-		numberOfTiles = Constants::DIFFICULTY3_SIDE_SIZE^2;
+		numberOfTiles = Constants::DIFFICULTY3_SIDE_SIZE* Constants::DIFFICULTY3_SIDE_SIZE;
 	}
 	
 	parameters_maze.difficulty = _difficulty;
