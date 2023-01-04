@@ -38,11 +38,15 @@ int main() {
     
     std::thread thread_client(test);
 
-    boost::asio::io_context service{};
+    boost::asio::io_context context{};
 
-    server s{ service, port };
+    server s{ context, port };
 
-    service.run();
+    auto t1 = std::thread([&]
+        {
+            context.run();
+        });
     thread_client.join();
+    t1.join();
     return 0;
 }
