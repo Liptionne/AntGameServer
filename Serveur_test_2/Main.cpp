@@ -7,8 +7,8 @@
 
 
 
-void test() { //Juste pour faire le test de l'envoi du JSON join de la part du client
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000)); //on attend un peu pour etre sur que tout est bien initialisé
+void test() { 
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     std::string adress = "127.0.0.1";
     short port = 9999;
     boost::asio::io_context io_context1;
