@@ -4,24 +4,42 @@
 
 #include <boost/property_tree/json_parser.hpp>
 
-const float PHEROMON_DROP_AMOUNT = 0.2;
-const float PHEROMON_DECREASE_AMOUNT = 0.1;
-
 
 game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_maze) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
 	//créer le labyrinthe
 	ParamMaze parameters_maze;
+
+	if (_difficulty == 1) {
+		parameters_maze.nbColumn = Constants::DIFFICULTY1_SIDE_SIZE;
+		parameters_maze.nbLine = Constants::DIFFICULTY1_SIDE_SIZE;
+		parameters_maze.nbFood = Constants::DIFFICULTY1_NBFOOD;
+		parameters_maze.nestLine = Constants::DIFFICULTY1_NESTLINE;
+		parameters_maze.nestColumn = Constants::DIFFICULTY1_NESTCOLUMN;
+		numberOfTiles = Constants::DIFFICULTY1_SIDE_SIZE ^ 2;
+	}
+
+	else if (_difficulty == 2) {
+		parameters_maze.nbColumn = Constants::DIFFICULTY2_SIDE_SIZE;
+		parameters_maze.nbLine = Constants::DIFFICULTY2_SIDE_SIZE;
+		parameters_maze.nbFood = Constants::DIFFICULTY2_NBFOOD;
+		parameters_maze.nestLine = Constants::DIFFICULTY2_NESTLINE;
+		parameters_maze.nestColumn = Constants::DIFFICULTY2_NESTCOLUMN;
+		numberOfTiles = Constants::DIFFICULTY2_SIDE_SIZE ^ 2;
+	}
+
+	else if (_difficulty == 3) {
+		parameters_maze.nbColumn = Constants::DIFFICULTY3_SIDE_SIZE;
+		parameters_maze.nbLine = Constants::DIFFICULTY3_SIDE_SIZE;
+		parameters_maze.nbFood = Constants::DIFFICULTY3_NBFOOD;
+		parameters_maze.nestLine = Constants::DIFFICULTY3_NESTLINE;
+		parameters_maze.nestColumn = Constants::DIFFICULTY3_NESTCOLUMN;
+		numberOfTiles = Constants::DIFFICULTY3_SIDE_SIZE^2;
+	}
 	
-	parameters_maze.nbColumn = _size_side_maze;
-	parameters_maze.nbLine = _size_side_maze;
-	parameters_maze.nbFood = 2;
-	parameters_maze.nestLine = 19;
-	parameters_maze.nestColumn = 19;
 	parameters_maze.difficulty = _difficulty;
 	p_Maze = generateMaze(&parameters_maze);
 	
-	numberOfTiles = _size_side_maze * _size_side_maze;
 	std::vector<float> vector1(numberOfTiles, 0.0);
 	p_pheromons = std::move(vector1);
 	
@@ -84,26 +102,15 @@ void game::move(const boost::uuids::uuid& _player, std::string _move)
 	}
 
 	/* Si le joueur a de la nourriture à ce moment du code, cela veut dire qu'il nest pas sur un nid, 
-	donc on augmente la valeur en phreromone de la case */
+	donc on augmente la valeur en pheromone de la case */
 
 	if (p_players[i].has_food == true) {
-		p_pheromons[p_players[i].actual_line * p_Maze->nbColumn + p_players[i].actual_column] += PHEROMON_DROP_AMOUNT;
+		p_pheromons[p_players[i].actual_line * p_Maze->nbColumn + p_players[i].actual_column] += Constants::PHEROMON_DROP_AMOUNT;
 	}
 	
 
 }
 
-void game::updateMaze()
-{
-}
-
-void game::startGame()
-{
-}
-
-void game::stopGame()
-{
-}
 
 void game::decreasePheromons()
 {
@@ -114,13 +121,12 @@ void game::decreasePheromons()
 
 	// On fait decroitre la valeur de chaque case
 	for (int i = 0; i < numberOfTiles; i++) {
-		p_pheromons[i] = (1 - PHEROMON_DECREASE_AMOUNT) * p_pheromons[i];
+		p_pheromons[i] = (1 - Constants::PHEROMON_DECREASE_AMOUNT) * p_pheromons[i];
 	}
 
 	//Puis on envoi ce vecteur à chaque joueur.
 
 	for (int j = 0; j < p_actual_players; j++) {
-		std::cout << "coucou" << std::endl;
 		p_players[j]._session->sendPheromons(p_players[j].p_uuid,p_pheromons);
 	}
 }

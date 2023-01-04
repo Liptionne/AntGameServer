@@ -34,13 +34,15 @@ void test() { //Juste pour faire le test de l'envoi du JSON join de la part du c
 }
 
 int main() {
-    unsigned short port = 9999;
+
+    JSON::LoadOptionFile("options.json");
+    
     
     std::thread thread_client(test);
 
     boost::asio::io_context context{};
 
-    server s{ context, port };
+    server s{ context, Constants::SERVER_PORT };
 
     // -------------------------------------------------------------------------
 
@@ -54,7 +56,7 @@ int main() {
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         
-        //update all games
+        //update all games and send pheromons vector to all connected players
         for (game game : s._games) {
             game.decreasePheromons();
         }

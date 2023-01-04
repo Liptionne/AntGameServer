@@ -20,19 +20,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client\client.h" />
+    <ClInclude Include="constants.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="Maze\CException.h" />
     <ClInclude Include="Maze\CMaze.h" />
     <ClInclude Include="Maze\CMazeGenerator.h" />
     <ClInclude Include="Maze\CTile.h" />
     <ClInclude Include="Maze\libAntMaze.h" />
-    <ClInclude Include="Server\Game.h" />
+    <ClInclude Include="Server\game.h" />
     <ClInclude Include="Server\player.h" />
     <ClInclude Include="Server\server.h" />
     <ClInclude Include="Server\session.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client\client.cpp" />
+    <ClCompile Include="Constants.cpp" />
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="Maze\CException.cpp" />
     <ClCompile Include="Maze\CMaze.cpp" />
@@ -45,6 +47,7 @@
     <ClCompile Include="Server\Session.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="options.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

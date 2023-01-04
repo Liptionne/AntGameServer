@@ -1,4 +1,5 @@
 #include "JSON.h"
+#include "constants.h"
 #include "boost/uuid/uuid_io.hpp"
 #include <boost/property_tree/json_parser.hpp>
 
@@ -79,6 +80,37 @@ std::vector<float> JSON::getPheromons(const boost::property_tree::ptree& root)
         std::cout << vect_to_return.at(i) << ' ';
     }
     return vect_to_return;
+}
+
+void JSON::LoadOptionFile(std::string _path)
+{
+    boost::property_tree::ptree root;
+    
+    boost::property_tree::read_json(_path, root);
+
+    Constants::DIFFICULTY1_MAX_PLAYERS  = root.get("difficulty.1.MaxPlayers", 6);
+    Constants::DIFFICULTY1_SIDE_SIZE    = root.get("difficulty.1.SideOfSideMaze", 20);
+    Constants::DIFFICULTY1_NBFOOD       = root.get("difficulty.1.NbFoodSources", 2);
+    Constants::DIFFICULTY1_NESTLINE     = root.get("difficulty.1.NestLine", 19);
+    Constants::DIFFICULTY1_NESTCOLUMN   = root.get("difficulty.1.NestColumn", 19);
+
+    Constants::DIFFICULTY2_MAX_PLAYERS  = root.get("difficulty.2.MaxPlayers", 6);
+    Constants::DIFFICULTY2_SIDE_SIZE    = root.get("difficulty.2.SideOfSideMaze", 20);
+    Constants::DIFFICULTY2_NBFOOD       = root.get("difficulty.2.NbFoodSources", 2);
+    Constants::DIFFICULTY2_NESTLINE     = root.get("difficulty.2.NestLine", 19);
+    Constants::DIFFICULTY2_NESTCOLUMN   = root.get("difficulty.2.NestColumn", 19);
+
+    Constants::DIFFICULTY3_MAX_PLAYERS  = root.get("difficulty.3.MaxPlayers", 6);
+    Constants::DIFFICULTY3_SIDE_SIZE    = root.get("difficulty.3.SideOfSideMaze", 20);
+    Constants::DIFFICULTY3_NBFOOD       = root.get("difficulty.3.NbFoodSources", 2);
+    Constants::DIFFICULTY3_NESTLINE     = root.get("difficulty.3.NestLine", 19);
+    Constants::DIFFICULTY3_NESTCOLUMN   = root.get("difficulty.3.NestColumn", 19);
+
+    Constants::PHEROMON_DECREASE_AMOUNT = root.get("PheromonDecreaseAmount", 0.1);
+    Constants::PHEROMON_DROP_AMOUNT     = root.get("PheromonDropAmount", 0.2);
+
+    Constants::VERBOSE                  = root.get("Verbose", false);
+    Constants::SERVER_PORT              = root.get<unsigned short>("ServerPort", 9999);
 }
 
 // ----------------------------------------------------------------------------------------------------------------------

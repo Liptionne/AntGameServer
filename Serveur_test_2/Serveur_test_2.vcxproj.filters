@@ -36,7 +36,7 @@
     <ClInclude Include="JSON.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Server\Game.h">
+    <ClInclude Include="Server\game.h">
       <Filter>Fichiers d%27en-tête\Server</Filter>
     </ClInclude>
     <ClInclude Include="Server\server.h">
@@ -64,6 +64,9 @@
       <Filter>Fichiers d%27en-tête\Client</Filter>
     </ClInclude>
     <ClInclude Include="Server\player.h">
+      <Filter>Fichiers d%27en-tête\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
       <Filter>Fichiers d%27en-tête\Server</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,9 +104,13 @@
     <ClCompile Include="Client\client.cpp">
       <Filter>Fichiers sources\Client</Filter>
     </ClCompile>
+    <ClCompile Include="Constants.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="options.json" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Serveur_test_2.rc">

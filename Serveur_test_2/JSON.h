@@ -1,6 +1,6 @@
 #pragma once
-#include <boost/property_tree/ptree.hpp>
-#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/property_tree/ptree.hpp>	// ptree to read JSON
+#include <boost/uuid/uuid.hpp>				// uuid class
 #include <vector>
 #include <iostream>
 #include "Maze/libAntMaze.h"
@@ -21,6 +21,8 @@ namespace JSON {
 	Maze* getMaze(const boost::property_tree::ptree& root);
 
 	std::vector <float> getPheromons(const boost::property_tree::ptree& root);
+
+	void LoadOptionFile(std::string _path);
 
 	
 

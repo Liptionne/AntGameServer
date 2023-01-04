@@ -12,7 +12,7 @@
 
 
 #include "server.h"
-#include "Game.h"
+#include "game.h"
 
 using boost::asio::async_write;
 using boost::asio::buffer;
@@ -94,7 +94,7 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
         std::string MOVE = JSON::getMove(root);
         
-        game* _game = &(p_origin->getGame(UUID));
+        game* _game = p_origin->getGame(UUID);
         _game->move(UUID, MOVE);
         
         sendPheromons(UUID, _game->getPheromons());

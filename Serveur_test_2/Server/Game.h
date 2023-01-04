@@ -9,6 +9,7 @@
 #include "../Maze/libAntMaze.h"
 #include "session.h"
 #include "player.h"
+#include "../constants.h"
 
 class game
 {
@@ -28,10 +29,8 @@ public:
 	void join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session> _session );
 	int getMax_Players() { return MAX_PLAYERS; }
 	int getNb_Players() { return p_actual_players; }
-	void move(const boost::uuids::uuid & _player, std::string _move );
-	void updateMaze();
-	void startGame();
-	void stopGame();
+	void move(const boost::uuids::uuid& _player, std::string _move);
+	
 	Maze* getMaze() { return p_Maze; };
 	void decreasePheromons();
 	std::vector<float> getPheromons() { return p_pheromons; }

@@ -9,7 +9,8 @@
 #include <boost/uuid/uuid_io.hpp> 
 
 
-#include "Game.h"
+#include "game.h"
+#include "../constants.h"
 
 /**
  * Listens to a socket and dispatches sessions for each incoming request.
@@ -27,7 +28,7 @@ public:
 
     void start_accept();
 
-    game getGame(const boost::uuids::uuid& _uuid);
+    game* getGame(const boost::uuids::uuid& _uuid);
 
     void handle_accept(std::shared_ptr<session> new_session,
         const boost::system::error_code& ec);
