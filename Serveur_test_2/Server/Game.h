@@ -15,7 +15,7 @@
 #include "../Maze/libAntMaze.h"
 #include "session.h"
 #include "player.h"
-#include "../constants.h"
+#include "constants.h"
 
  /**
   * @class game
@@ -75,6 +75,33 @@ public:
      */
     void join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session> _session);
 
+    
+
+    /**
+     * @brief Moves a player in the game.
+     * @param _player The UUID of the player.
+     * @param _move The move to make.
+     */
+    void move(const boost::uuids::uuid& _player, std::string _move);
+
+
+    /**
+     * @brief Decreases the value of all pheromons in the game, and send the result to all players connected.
+     */
+    void decreasePheromons();
+
+    /**
+     * @brief Gets the pheromons in the game.
+     * @return A vector of pheromons in the game.
+     */
+    std::vector<float> getPheromons() { return p_pheromons; };
+
+    /**
+   * @brief Gets the maze in the game.
+   * @return A pointer to the maze in the game.
+   */
+    Maze* getMaze() { return p_Maze; };
+
     /**
      * @brief Gets the maximum number of players allowed in the game.
      * @return The maximum number of players allowed in the game.
@@ -86,30 +113,6 @@ public:
      * @return The current number of players in the game.
      */
     int getNb_Players() { return p_actual_players; };
-
-    /**
-     * @brief Moves a player in the game.
-     * @param _player The UUID of the player.
-     * @param _move The move to make.
-     */
-    void move(const boost::uuids::uuid& _player, std::string _move);
-
-    /**
-   * @brief Gets the maze in the game.
-   * @return A pointer to the maze in the game.
-   */
-    Maze* getMaze() { return p_Maze; };
-
-    /**
-     * @brief Decreases the value of all pheromons in the game.
-     */
-    void decreasePheromons();
-
-    /**
-     * @brief Gets the pheromons in the game.
-     * @return A vector of pheromons in the game.
-     */
-    std::vector<float> getPheromons() { return p_pheromons; };
 
 
 };

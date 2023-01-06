@@ -18,7 +18,7 @@ void test() {
             io_context1.run();
         });
     
-    client1.join();
+    client1.join(1);
    
     
     

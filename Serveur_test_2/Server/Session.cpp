@@ -80,11 +80,15 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         
         if (UUID.is_nil()) {
             UUID = boost::uuids::random_generator()();
+            int difficulty = JSON::getDifficultyJoin(root);
+
+            p_origin->findGameWithDifficulty(difficulty, UUID, shared_from_this());
+        }
+        else {
+            p_game = p_origin->getGame(UUID);
         }
         
-        int difficulty = JSON::getDifficultyJoin(root);
         
-        p_origin->matchmaking(difficulty, UUID,shared_from_this());
         
     }
     else if(type == "move") {
@@ -95,9 +99,9 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         std::string MOVE = JSON::getMove(root);
         
         game* _game = p_origin->getGame(UUID);
-        _game->move(UUID, MOVE);
+        p_game->move(UUID, MOVE);
         
-        sendPheromons(UUID, _game->getPheromons());
+        sendPheromons(UUID, p_game->getPheromons());
         
     }
     listen();

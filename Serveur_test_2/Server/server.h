@@ -15,7 +15,7 @@
 
 
 #include "game.h"
-#include "../constants.h"
+#include "constants.h"
 
 
 /**
@@ -37,9 +37,26 @@ public:
     server(boost::asio::io_context& service, unsigned short port);
 
     /**
-     * @brief Starts accepting new connections.
+     * @brief Starts accepting new connections, and send all new connection in new sessions.
      */
-    void start_accept();
+    void startAccept();
+
+
+    /**
+     * @brief Handles the acceptance of a new session.
+     * @param new_session The new session.
+     * @param ec The error code of the operation.
+     */
+    void handleAccept(std::shared_ptr<session> new_session,
+        const boost::system::error_code& ec);
+
+    /**
+     * @brief Attempts to matchmake a player with a game of the specified difficulty.
+     * @param _difficulty The desired difficulty of the game.
+     * @param _uuid The UUID of the player.
+     * @param _session The session of the player.
+     */
+    void findGameWithDifficulty(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session);
 
     /**
      * @brief Gets a game with the specified UUID.
@@ -52,42 +69,26 @@ public:
      * @brief Returns a list of available games.
      * @return A vector of `game` objects.
      */
-    std::vector<game> getListofAvailaibleGames() { return _games; };
-
-    /**
-     * @brief Handles the acceptance of a new session.
-     * @param new_session The new session.
-     * @param ec The error code of the operation.
-     */
-    void handle_accept(std::shared_ptr<session> new_session,
-        const boost::system::error_code& ec);
-
-    /**
-     * @brief Attempts to matchmake a player with a game of the specified difficulty.
-     * @param _difficulty The desired difficulty of the game.
-     * @param _uuid The UUID of the player.
-     * @param _session The session of the player.
-     */
-    void matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session);
+    std::vector<game> getListofAvailaibleGames() { return p_games; };
 
 private:
     /**
-     * @brief A vector of games managed by the server.
+     * @brief A vector of games where there is space to new players.
      */
-    std::vector<game> _games;
+    std::vector<game> p_games;
 
     /**
      * @brief A vector of pairs mapping player UUIDs to the games they are in.
      */
-    std::vector <std::pair<boost::uuids::uuid, game>> _players_games;
+    std::vector <std::pair<boost::uuids::uuid, game>> p_players_game;
 
     /**
      * @brief The IO context of the server.
      */
-    boost::asio::io_context& service_;
+    boost::asio::io_context& p_context;
 
     /**
      * @brief The acceptor used to accept new connections.
      */
-    acceptor_t acceptor_;    
+    acceptor_t p_acceptor;    
 };

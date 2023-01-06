@@ -1,7 +1,7 @@
 
 
 #include "JSON.h"
-#include "constants.h"
+#include "server/constants.h"
 #include "boost/uuid/uuid_io.hpp"
 #include <boost/property_tree/json_parser.hpp>
 
@@ -110,7 +110,7 @@ void JSON::LoadOptionFile(std::string _path)
 }
 
 
-std::string JSON::createGeneric(boost::uuids::uuid _uuid, boost::property_tree::ptree _root) {
+std::string JSON::createGeneric(boost::uuids::uuid _uuid, boost::property_tree::ptree& _root) {
 
 	_root.put("body.playerId", _uuid);
 	std::stringstream ss;

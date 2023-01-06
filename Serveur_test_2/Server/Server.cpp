@@ -16,45 +16,45 @@ using boost::system::system_error;
 
 server::server(boost::asio::io_context& service,
     const unsigned short port)
-    : service_{ service }, acceptor_{ service } {
+    : p_context{ service }, p_acceptor{ service } {
         
 
     
         game game1(1, Constants::DIFFICULTY1_MAX_PLAYERS,Constants::DIFFICULTY1_SIDE_SIZE);
         game game2(2, Constants::DIFFICULTY2_MAX_PLAYERS, Constants::DIFFICULTY2_SIDE_SIZE);
         game game3(3, Constants::DIFFICULTY3_MAX_PLAYERS, Constants::DIFFICULTY3_SIDE_SIZE);
-        _games.push_back(game1);
-        _games.push_back(game2);
-        _games.push_back(game3);
+        p_games.push_back(game1);
+        p_games.push_back(game2);
+        p_games.push_back(game3);
         
 
         endpoint_t endpoint{ boost::asio::ip::tcp::v4(), port };
-        acceptor_.open(endpoint.protocol());
-        acceptor_.set_option(acceptor_t::reuse_address(false));
-        acceptor_.bind(endpoint);
-        acceptor_.listen();
-        start_accept();
+        p_acceptor.open(endpoint.protocol());
+        p_acceptor.set_option(acceptor_t::reuse_address(false));
+        p_acceptor.bind(endpoint);
+        p_acceptor.listen();
+        startAccept();
 }
 
-void server::start_accept() {
+void server::startAccept() {
 
     
-    std::shared_ptr<session> new_session{ std::make_shared<session>(service_, this)};
+    std::shared_ptr<session> new_session{ std::make_shared<session>(p_context, this)};
     auto handler =
-        std::bind(&server::handle_accept, this, new_session, _1);
-    acceptor_.async_accept(new_session->socket(), handler);
+        std::bind(&server::handleAccept, this, new_session, _1);
+    p_acceptor.async_accept(new_session->socket(), handler);
 }
 
 game* server::getGame(const boost::uuids::uuid& _uuid)
 {
     int i = 0;
-    while (_players_games[i].first != _uuid) {
+    while (p_players_game[i].first != _uuid) {
         i++;
     }
-   return &(_players_games[i].second);
+   return &(p_players_game[i].second);
 }
 
-void server::handle_accept( std::shared_ptr<session> new_session,
+void server::handleAccept( std::shared_ptr<session> new_session,
     const boost::system::error_code& ec) {
 
     std::cout << "creation" << std::endl;
@@ -63,40 +63,40 @@ void server::handle_accept( std::shared_ptr<session> new_session,
     }
 
     new_session->listen();
-    start_accept();
+    startAccept();
 }
 
-void server::matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session)
+void server::findGameWithDifficulty(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session)
 {
-    game& game_ = _games[_difficulty - 1];
+    game& game_ = p_games[_difficulty - 1];
     if (game_.getMax_Players() == game_.getNb_Players()) {
         std::cout << "new game matchmaking" << std::endl;
         
         if (_difficulty == 1) {
             game newgame(1, Constants::DIFFICULTY1_MAX_PLAYERS, Constants::DIFFICULTY1_SIDE_SIZE);
-            _games.insert(_games.begin() + (_difficulty - 1), newgame);
+            p_games.insert(p_games.begin() + (_difficulty - 1), newgame);
             newgame.join(_uuid, _session);
-            _players_games.push_back(std::pair(_uuid, newgame));
+            p_players_game.push_back(std::pair(_uuid, newgame));
             
         }
         else if (_difficulty == 2) {
             game newgame(2, Constants::DIFFICULTY2_MAX_PLAYERS, Constants::DIFFICULTY2_SIDE_SIZE);
-            _games.insert(_games.begin() + (_difficulty - 1), newgame);
+            p_games.insert(p_games.begin() + (_difficulty - 1), newgame);
             newgame.join(_uuid, _session);
-            _players_games.push_back(std::pair(_uuid, newgame));
+            p_players_game.push_back(std::pair(_uuid, newgame));
         }
         else if (_difficulty == 3) {
             game newgame(3, Constants::DIFFICULTY3_MAX_PLAYERS, Constants::DIFFICULTY3_SIDE_SIZE);
-            _games.insert(_games.begin() + (_difficulty - 1), newgame);
+            p_games.insert(p_games.begin() + (_difficulty - 1), newgame);
             newgame.join(_uuid, _session);
-            _players_games.push_back(std::pair(_uuid, newgame));
+            p_players_game.push_back(std::pair(_uuid, newgame));
         }
         
     }
     else {
         game_.join(_uuid, _session);
         //_session->setGame(&game_);
-        _players_games.push_back(std::pair(_uuid, game_));
+        p_players_game.push_back(std::pair(_uuid, game_));
     }
 }
 

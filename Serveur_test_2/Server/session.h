@@ -81,7 +81,9 @@ public:
      * @brief Gets the server that created the session.
      * @return A pointer to the server that created the session.
      */
-    server* getServer() { return p_origin; };
+    //server* getServer() { return p_origin; };
+
+    void setGame(game* _game) { p_game = _game; };
 
 private:
     /**
@@ -93,6 +95,11 @@ private:
      * @brief A pointer to the server that created the session.
      */
     server* p_origin;
+
+    /**
+     * @brief A pointer to the game where the player of this session play.
+     */
+    game* p_game;
 
     /**
      * @brief A buffer for incoming messages.

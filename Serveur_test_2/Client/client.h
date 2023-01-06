@@ -64,11 +64,7 @@ public:
      */
     void join(int _difficulty);
 
-    /**
-     * @brief Handles the completion of a write operation.
-     * @param ec The error code of the operation.
-     */
-    void handle_write_client(const std::error_code& ec);
+    
 
     /**
      * @brief Sends a move request to the server.
@@ -81,13 +77,13 @@ public:
      * @param ec The error code of the operation.
      * @param bytes_transferred The number of bytes transferred.
      */
-    void handle_read_client(const boost::system::error_code& ec,
+    void handleReadClient(const boost::system::error_code& ec,
         size_t bytes_transferred);
 
     /**
      * @brief Listens for incoming messages.
      */
-    void listen_client();
+    void listenClient();
 
     /**
      * @brief Sets the maze of the client.

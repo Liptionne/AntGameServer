@@ -25,7 +25,7 @@ Client::Client(boost::asio::io_context& io_context1, std::string _adress, short 
     
     p_socket_client.connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
     p_uuid = NULL_UUID;
-    listen_client();
+    listenClient();
     
 }
 
@@ -55,7 +55,7 @@ void Client::move(std::string _move)
     boost::system::error_code error;
 
     std::string message_to_send = JSON::createMove(p_uuid, _move) + "#";
-    std::cout << "on envoi ca :" << message_to_send << std::endl;
+    //std::cout << "on envoi ca :" << message_to_send << std::endl;
     boost::asio::write(p_socket_client, boost::asio::buffer(message_to_send), error);
     if (!error) {
         std::cout << "MOVE SENT" << std::endl;
@@ -67,14 +67,14 @@ void Client::move(std::string _move)
     
 }
 
-void Client::listen_client()
+void Client::listenClient()
 {
     std::cout << "debut ecoute client" << std::endl;
-    auto handler_listen = std::bind(&Client::handle_read_client, this, _1, _2);
+    auto handler_listen = std::bind(&Client::handleReadClient, this, _1, _2);
     boost::asio::async_read_until(p_socket_client, p_buffer, '#', handler_listen);
 }
 
-void Client::handle_read_client(const boost::system::error_code& ec,
+void Client::handleReadClient(const boost::system::error_code& ec,
     size_t bytes_transferred) {
     std::cout << "recu du client" << std::endl;
     if (ec) {
@@ -89,7 +89,7 @@ void Client::handle_read_client(const boost::system::error_code& ec,
     p_buffer.consume(bytes_transferred);
     std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
     std::string received_message = str.substr(0, bytes_transferred - 1);
-    std::cout << "client RECOIT " << received_message << std::endl;
+    //std::cout << "client RECOIT " << received_message << std::endl;
    
     boost::property_tree::ptree root;
     std::stringstream ss;
@@ -103,6 +103,6 @@ void Client::handle_read_client(const boost::system::error_code& ec,
         setMaze(JSON::getMaze(root));
         
     }
-    listen_client();
+    listenClient();
 
 }

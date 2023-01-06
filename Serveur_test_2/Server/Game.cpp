@@ -2,8 +2,6 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include <boost/property_tree/json_parser.hpp>
-
 
 game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_maze) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
@@ -61,7 +59,7 @@ void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session>
 	p_players.push_back(player_to_add);
 	p_actual_players += 1;
 	
-	
+	_session->setGame(this);
 	_session->sendMaze(_player_uuid, p_Maze);
 }
 
@@ -75,6 +73,7 @@ void game::move(const boost::uuids::uuid& _player, std::string _move)
 	if (_move == "haut") {
 		std::cout << "haut" << std::endl;
 		(p_players[i].actual_line) -= 1;
+		std::cout << std::endl;
 	}
 	if (_move == "bas") {
 		(p_players[i].actual_line) += 1;

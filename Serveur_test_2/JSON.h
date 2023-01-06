@@ -71,7 +71,7 @@ namespace JSON {
      * @param _root The root of the JSON message.
      * @return The JSON message as a string.
      */
-    std::string createGeneric(boost::uuids::uuid _uuid, boost::property_tree::ptree _root);
+    std::string createGeneric(boost::uuids::uuid _uuid,boost::property_tree::ptree& _root);
 
     /**
  * @brief Creates a JSON join message.

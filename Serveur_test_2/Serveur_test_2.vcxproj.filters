@@ -66,7 +66,7 @@
     <ClInclude Include="Server\player.h">
       <Filter>Fichiers d%27en-tête\Server</Filter>
     </ClInclude>
-    <ClInclude Include="constants.h">
+    <ClInclude Include="Server\constants.h">
       <Filter>Fichiers d%27en-tête\Server</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,13 +104,14 @@
     <ClCompile Include="Client\client.cpp">
       <Filter>Fichiers sources\Client</Filter>
     </ClCompile>
-    <ClCompile Include="Constants.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Server\Constants.cpp">
+      <Filter>Fichiers sources\Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="options.json" />
+    <None Include="UML.asta" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Serveur_test_2.rc">
