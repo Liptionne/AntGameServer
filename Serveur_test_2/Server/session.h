@@ -77,12 +77,13 @@ public:
      */
     socket_t& socket() { return p_socket; };
 
-    /**
-     * @brief Gets the server that created the session.
-     * @return A pointer to the server that created the session.
-     */
-    //server* getServer() { return p_origin; };
+    
 
+    /**
+  * @brief Set the game object for the current instance
+  *
+  * @param _game Pointer to the game object to be set
+  */
     void setGame(game* _game) { p_game = _game; };
 
 private:

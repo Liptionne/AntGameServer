@@ -112,6 +112,7 @@
     <None Include="packages.config" />
     <None Include="options.json" />
     <None Include="UML.asta" />
+    <None Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Serveur_test_2.rc">

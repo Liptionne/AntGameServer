@@ -47,6 +47,7 @@
     <ClCompile Include="Server\Session.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="options.json" />
     <None Include="packages.config" />
     <None Include="UML.asta" />

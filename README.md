@@ -5,6 +5,8 @@
 
 Le projet nécessite Boost pour fonctionner (version 1.80) : https://www.boost.org/users/download/
 
+La version C++ utilisée est C++17.
+
 Il faut ajouter boost en librairie externe.
 
 Pour faire fonctionner le serveur, necessite de lancer le .exe 
