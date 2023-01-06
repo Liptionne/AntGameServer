@@ -90,16 +90,16 @@ void Client::handleReadClient(const boost::system::error_code& ec,
 
     boost::asio::streambuf::const_buffers_type bufs = p_buffer.data();
     p_buffer.consume(bytes_transferred);
-    std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
-    std::string received_message = str.substr(0, bytes_transferred - 1);
+    std::string temp_str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
+    std::string received_message = temp_str.substr(0, bytes_transferred - 1);
+    
     if (VERBOSE) {
         std::cout << "client RECOIT " << received_message << "\n";
     }
-    
-   
+       
     boost::property_tree::ptree root;
-    std::stringstream ss;
-    ss << received_message;
+    std::stringstream ss(received_message);
+    //ss << received_message;
     boost::property_tree::read_json(ss, root);
     std::string type = JSON::getType(root);
 
