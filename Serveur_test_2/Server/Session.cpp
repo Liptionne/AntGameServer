@@ -57,10 +57,10 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
     buffer.consume(2048);
     std::string str(boost::asio::buffers_begin(bufs), boost::asio::buffers_begin(bufs) + bytes_transferred);
     std::string string = str.substr(0, bytes_transferred - 1);
-    
-    std::cout << "serveur recoit : " << string << std::endl;
-    std::cout << bytes_transferred << ";;" << string.length() << std::endl;
-    
+    if (Constants::VERBOSE) {
+        std::cout << "serveur recoit : " << string << "\n";
+        std::cout << bytes_transferred << ";;" << string.length() << "\n";
+    }
     
     boost::property_tree::ptree root;
     std::stringstream ss;
@@ -73,12 +73,13 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
     
     if (type == "join"){
         
-        std::cout << "JOIN" << std::endl;
+        
         
         boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
         
         
         if (UUID.is_nil()) {
+            std::cout << "new player joins" << std::endl;
             UUID = boost::uuids::random_generator()();
             int difficulty = JSON::getDifficultyJoin(root);
 
@@ -93,7 +94,7 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
     }
     else if(type == "move") {
         
-        std::cout << "MOVE" << std::endl;
+        
 
         boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
         std::string MOVE = JSON::getMove(root);
@@ -102,6 +103,8 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         p_game->move(UUID, MOVE);
         
         sendPheromons(UUID, p_game->getPheromons());
+
+        std::cout << "Player : " << UUID << " made a movement : " << MOVE << "\n";
         
     }
     listen();
@@ -120,9 +123,10 @@ void session::sendPheromons(boost::uuids::uuid _uuid,const std::vector<float>& _
 }
 
 void session::sendString(std::string _message) {
-    std::cout << "serveur envoi " << _message << std::endl;
-    std::cout << "taille du paquet " << _message.size() << std::endl;
-
+    if (Constants::VERBOSE) {
+        std::cout << "serveur envoi " << _message << std::endl;
+        std::cout << "taille du paquet " << _message.size() << std::endl;
+    }
     boost::system::error_code error;
     boost::asio::write(p_socket, boost::asio::buffer(_message), error);
     if (error) {

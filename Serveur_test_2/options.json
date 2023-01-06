@@ -24,6 +24,6 @@
   },
   "PheromonDecreaseAmount": 0.1,
   "PheromonDropAmount": 0.2,
-  "Verbose": true,
+  "Verbose": false,
   "ServerPort": 9999
 }

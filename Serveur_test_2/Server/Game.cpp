@@ -47,7 +47,7 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 
 void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session> _session )
 {
-	std::cout << "game.join" << std::endl;
+	
 	Player player_to_add;
 	player_to_add.actual_line = p_Maze->nestLine;
 	player_to_add.actual_column = p_Maze->nestColumn;
@@ -65,15 +65,13 @@ void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session>
 
 void game::move(const boost::uuids::uuid& _player, std::string _move)
 {
-	std::cout << "Fonction game.move" << std::endl;
 	int i = 0;
 	while (p_players[i].p_uuid != _player) {
 		i++;
 	}
 	if (_move == "haut") {
-		std::cout << "haut" << std::endl;
 		(p_players[i].actual_line) -= 1;
-		std::cout << std::endl;
+		
 	}
 	if (_move == "bas") {
 		(p_players[i].actual_line) += 1;
@@ -85,7 +83,7 @@ void game::move(const boost::uuids::uuid& _player, std::string _move)
 		(p_players[i].actual_column) += 1;
 	}
 
-	/* Si la tile sur laquelle se teouve le joueur est entre 16 compris et 32 alors il est sur une case nourriture
+	/* Si la tile sur laquelle se trouve le joueur est entre 16 compris et 32 alors il est sur une case nourriture
 	 Daans une liste, pour representer un tableau, l'index de la liste avec deux coordonées d'un tableau, l'index vaut le nombre de cases
 	déjà complètes (donc le nombre de lignes complètes : actual_Line * le nombre de case par lignes : nbColumn)
 					+ le nombres de cases de la ligne imcomplète (+ actualColumn)*/

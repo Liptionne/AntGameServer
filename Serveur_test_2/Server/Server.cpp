@@ -56,8 +56,6 @@ game* server::getGame(const boost::uuids::uuid& _uuid)
 
 void server::handleAccept( std::shared_ptr<session> new_session,
     const boost::system::error_code& ec) {
-
-    std::cout << "creation" << std::endl;
     if (ec) {
         throw system_error{ ec };
     }
@@ -70,8 +68,7 @@ void server::findGameWithDifficulty(int _difficulty, boost::uuids::uuid _uuid, s
 {
     game& game_ = p_games[_difficulty - 1];
     if (game_.getMax_Players() == game_.getNb_Players()) {
-        std::cout << "new game matchmaking" << std::endl;
-        
+
         if (_difficulty == 1) {
             game newgame(1, Constants::DIFFICULTY1_MAX_PLAYERS, Constants::DIFFICULTY1_SIDE_SIZE);
             p_games.insert(p_games.begin() + (_difficulty - 1), newgame);
