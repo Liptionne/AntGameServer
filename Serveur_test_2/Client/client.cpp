@@ -27,7 +27,15 @@ Client::Client(boost::asio::io_context& io_context1, std::string _adress, short 
     p_socket_client.connect(tcp::endpoint(boost::asio::ip::address::from_string(_adress), _port));
     p_uuid = NULL_UUID;
     listenClient();
+    t1 = std::thread([&]
+        {
+            p_io_context.run();
+        });
     
+    
+}
+Client::~Client() {
+    t1.join();
 }
 
 void Client::join(int _difficulty) {

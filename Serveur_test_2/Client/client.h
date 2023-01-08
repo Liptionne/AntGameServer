@@ -49,6 +49,8 @@ private:
      */
     Maze* p_maze;
 
+    std::thread t1;
+
 public:
     /**
      * @brief Constructs a new client.
@@ -58,6 +60,7 @@ public:
      */
     Client(boost::asio::io_context& io_context1, std::string _adress, short _port);
 
+    ~Client();
     /**
      * @brief Sends a join request to the server.
      * @param _difficulty The desired difficulty of the game.
