@@ -62,26 +62,26 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         std::cout << bytes_transferred << ";;" << string.length() << "\n";
     }
     
-    boost::property_tree::ptree root;
+    boost::property_tree::ptree JSON_Property_Tree;
     std::stringstream ss;
     ss << string;
-    boost::property_tree::read_json(ss, root);
+    boost::property_tree::read_json(ss, JSON_Property_Tree);
 
     //travaille avec le propertry tree
     
-    std::string type = JSON::getType(root);
+    std::string type = JSON::getType(JSON_Property_Tree);
     
     if (type == "join"){
         
         
         
-        boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
+        boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(JSON_Property_Tree));
         
         
         if (UUID.is_nil()) {
             std::cout << "new player joins" << std::endl;
             UUID = boost::uuids::random_generator()();
-            int difficulty = JSON::getDifficultyJoin(root);
+            int difficulty = JSON::getDifficultyJoin(JSON_Property_Tree);
 
             p_origin->findGameWithDifficulty(difficulty, UUID, shared_from_this());
         }
@@ -96,8 +96,8 @@ void session::handle_read(const error_code& ec, size_t bytes_transferred) {
         
         
 
-        boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(root));
-        std::string MOVE = JSON::getMove(root);
+        boost::uuids::uuid UUID = boost::lexical_cast<boost::uuids::uuid>(JSON::getUUID(JSON_Property_Tree));
+        std::string MOVE = JSON::getMove(JSON_Property_Tree);
         
         game* _game = p_origin->getGame(UUID);
         p_game->move(UUID, MOVE);

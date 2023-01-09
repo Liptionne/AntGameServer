@@ -51,6 +51,8 @@ private:
 
     std::thread t1;
 
+    std::vector<float> p_pheromons;
+
 public:
     /**
      * @brief Constructs a new client.
