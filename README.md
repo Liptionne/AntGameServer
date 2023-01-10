@@ -9,7 +9,7 @@ La version C++ utilisée est C++17.
 
 Il faut ajouter boost en librairie externe.
 
-###Fonctionnement du serveur
+### Fonctionnement du serveur
 
 Pour faire fonctionner le serveur, necessite de lancer le .exe 
 Un paramétrage approfondi dans le fichier option.json permet de paramétrer les options du serveur.
