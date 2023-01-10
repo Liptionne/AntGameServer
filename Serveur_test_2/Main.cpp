@@ -13,10 +13,7 @@ void test() {
     short port = 9999;
     boost::asio::io_context io_context1;
     Client client1{ io_context1, adress, port };
-    auto t1 = std::thread([&]
-        {
-            io_context1.run();
-        });
+    
     
     client1.join(1);
    
@@ -30,7 +27,7 @@ void test() {
     
     client1.move("haut");
     std::this_thread::sleep_for(std::chrono::milliseconds(20000));
-    t1.join();
+    
 }
 
 int main() {
