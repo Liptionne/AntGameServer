@@ -25,11 +25,11 @@
     <Filter Include="Fichiers d%27en-tête\Client">
       <UniqueIdentifier>{37c45996-1512-4c2c-bb94-925608136437}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Maze">
-      <UniqueIdentifier>{ce0ac5e2-2876-4502-9774-ee8fe06368d1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers sources\Client">
       <UniqueIdentifier>{a8701e38-fcbf-450b-9986-1db50ea4dead}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Maze">
+      <UniqueIdentifier>{527d9720-62a7-4e09-a8d8-96d94e148efb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +43,15 @@
       <Filter>Fichiers d%27en-tête\Server</Filter>
     </ClInclude>
     <ClInclude Include="Server\session.h">
+      <Filter>Fichiers d%27en-tête\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\client.h">
+      <Filter>Fichiers d%27en-tête\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\player.h">
+      <Filter>Fichiers d%27en-tête\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\constants.h">
       <Filter>Fichiers d%27en-tête\Server</Filter>
     </ClInclude>
     <ClInclude Include="Maze\CException.h">
@@ -59,15 +68,6 @@
     </ClInclude>
     <ClInclude Include="Maze\libAntMaze.h">
       <Filter>Fichiers d%27en-tête\Maze</Filter>
-    </ClInclude>
-    <ClInclude Include="Client\client.h">
-      <Filter>Fichiers d%27en-tête\Client</Filter>
-    </ClInclude>
-    <ClInclude Include="Server\player.h">
-      <Filter>Fichiers d%27en-tête\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Server\constants.h">
-      <Filter>Fichiers d%27en-tête\Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

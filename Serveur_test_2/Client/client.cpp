@@ -99,7 +99,6 @@ void Client::handleReadClient(const boost::system::error_code& ec,
        
     boost::property_tree::ptree root;
     std::stringstream ss(received_message);
-    //ss << received_message;
     boost::property_tree::read_json(ss, root);
     std::string type = JSON::getType(root);
 
