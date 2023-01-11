@@ -80,8 +80,6 @@ public:
      */
     void join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session> _session);
 
-    
-
     /**
      * @brief Moves a player in the game.
      * @param _player The UUID of the player.
@@ -89,9 +87,17 @@ public:
      */
     void move(const boost::uuids::uuid& _player, std::string _move);
 
+    /**
+     * @brief Remove a player from the game after he disconnects.
+     * @param _session The session attached to the player.
+     */
     void remove(std::shared_ptr<session> _session);
-
+    
+    /**
+     * @brief End the current game by calling the destructor
+     */
     void endGame();
+
     /**
      * @brief Decreases the value of all pheromons in the game, and send the result to all players connected.
      */

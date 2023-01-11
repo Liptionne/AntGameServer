@@ -72,26 +72,27 @@ void server::handleAccept( std::shared_ptr<session> new_session,
 void server::findGameWithDifficulty(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session)
 {
     game* game_ = p_games[_difficulty - 1];
+    // If the game is full, we create a new one with the desired difficulty
     if (game_->getMax_Players() == game_->getNb_Players()) {
 
         if (_difficulty == 1) {
-            game newgame(1, Constants::DIFFICULTY1_MAX_PLAYERS, Constants::DIFFICULTY1_SIDE_SIZE);
-            p_games.insert(p_games.begin() + (_difficulty - 1), &newgame);
-            newgame.join(_uuid, _session);
-            p_players_game.push_back(std::pair(_uuid, &newgame));
+            game* newgame = new game(1, Constants::DIFFICULTY1_MAX_PLAYERS, Constants::DIFFICULTY1_SIDE_SIZE);
+            p_games.insert(p_games.begin() + (_difficulty - 1), newgame);
+            newgame->join(_uuid, _session);
+            p_players_game.push_back(std::pair(_uuid, newgame));
             
         }
         else if (_difficulty == 2) {
-            game newgame(2, Constants::DIFFICULTY2_MAX_PLAYERS, Constants::DIFFICULTY2_SIDE_SIZE);
-            p_games.insert(p_games.begin() + (_difficulty - 1), &newgame);
-            newgame.join(_uuid, _session);
-            p_players_game.push_back(std::pair(_uuid, &newgame));
+            game* newgame = new game(2, Constants::DIFFICULTY2_MAX_PLAYERS, Constants::DIFFICULTY2_SIDE_SIZE);
+            p_games.insert(p_games.begin() + (_difficulty - 1), newgame);
+            newgame->join(_uuid, _session);
+            p_players_game.push_back(std::pair(_uuid, newgame));
         }
         else if (_difficulty == 3) {
-            game newgame(3, Constants::DIFFICULTY3_MAX_PLAYERS, Constants::DIFFICULTY3_SIDE_SIZE);
-            p_games.insert(p_games.begin() + (_difficulty - 1), &newgame);
-            newgame.join(_uuid, _session);
-            p_players_game.push_back(std::pair(_uuid, &newgame));
+            game* newgame = new game(3, Constants::DIFFICULTY3_MAX_PLAYERS, Constants::DIFFICULTY3_SIDE_SIZE);
+            p_games.insert(p_games.begin() + (_difficulty - 1), newgame);
+            newgame->join(_uuid, _session);
+            p_players_game.push_back(std::pair(_uuid, newgame));
         }
         
     }

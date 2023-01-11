@@ -40,6 +40,8 @@ Client::Client(boost::asio::io_context& io_context1, std::string _adress, short 
 }
 
 Client::~Client() {
+
+    // We stop the listenning before destroying the client. It will deal with all the async stuff not done yet.
     p_io_context.stop();
     
     t1.join();

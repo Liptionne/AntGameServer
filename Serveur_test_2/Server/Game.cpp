@@ -127,16 +127,23 @@ void game::move(const boost::uuids::uuid& _player, std::string _move)
 void game::remove(std::shared_ptr<session> _session)
 {
 	int i = 0;
+
 	while (p_players[i]._session != _session) {
 		i++;
 	}
+
 	p_players.erase(p_players.begin() + i);
 	p_actual_players -= 1;
+
+	// We stop the game if there is no players playing
 	if (p_actual_players == 0) {
 		endGame();
 	}
 }
+
+
 void game::endGame() {
+	
 	delete this;
 }
 
