@@ -5,7 +5,7 @@
 
 game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_maze) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
-	//créer le labyrinthe
+	// Create the parametersMaze struct
 	ParamMaze parameters_maze;
 
 	if (_difficulty == 1) {
@@ -36,11 +36,15 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 	}
 	
 	parameters_maze.difficulty = _difficulty;
+
+	// Generate the maze of the game
 	p_Maze = generateMaze(&parameters_maze);
 	
+	// Create the pheromons vector
 	std::vector<float> vector1(numberOfTiles, 0.0);
 	p_pheromons = std::move(vector1);
 	
+	// Set the number of actual players to 0
 	p_actual_players = 0;
 	
 }
@@ -53,7 +57,7 @@ game::~game()
 
 void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session> _session )
 {
-	
+	// Create a player to add to the game
 	Player player_to_add;
 	player_to_add.actual_line = p_Maze->nestLine;
 	player_to_add.actual_column = p_Maze->nestColumn;
@@ -61,10 +65,11 @@ void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session>
 	player_to_add.p_uuid = _player_uuid;
 	player_to_add._session = _session;
 
-
+	// Add the player
 	p_players.push_back(player_to_add);
 	p_actual_players += 1;
 	
+	// Send the maze to the player 
 	_session->setGame(this);
 	_session->sendMaze(_player_uuid, p_Maze);
 }
@@ -72,40 +77,45 @@ void game::join(const boost::uuids::uuid& _player_uuid, std::shared_ptr<session>
 void game::move(const boost::uuids::uuid& _player, std::string _move)
 {
 	int i = 0;
+
+	// Find the player with the given UUID	
 	while (p_players[i].p_uuid != _player) {
 		i++;
 	}
+
+	// Deals with the movement given
 	if (_move == "haut") {
 		(p_players[i].actual_line) -= 1;
 		
 	}
+
 	if (_move == "bas") {
 		(p_players[i].actual_line) += 1;
 	}
+
 	if (_move == "gauche") {
 		(p_players[i].actual_column) -= 1;
 	}
+
 	if (_move == "droite") {
 		(p_players[i].actual_column) += 1;
 	}
 
-	/* Si la tile sur laquelle se trouve le joueur est entre 16 compris et 32 alors il est sur une case nourriture
-	 Daans une liste, pour representer un tableau, l'index de la liste avec deux coordonées d'un tableau, l'index vaut le nombre de cases
-	déjà complètes (donc le nombre de lignes complètes : actual_Line * le nombre de case par lignes : nbColumn)
-					+ le nombres de cases de la ligne imcomplète (+ actualColumn)*/
-
+	
+	/* If the value of hte tile where the player is is between 16 and 32, the player is actually on a food source
+		We change the value of hasFood to TRUE	
+	*/
 	if (16 <= p_Maze->tiles[p_players[i].actual_line * p_Maze->nbColumn + p_players[i].actual_column] < 32 && p_players[i].has_food == false) {
 		p_players[i].has_food == true;
 	}
 
-	// Si la case du jouer est la case Nest et qu'il a de la nourriture, alors il dépose se nourriture et ne l'as plus
+	// If the player arrrive at Nest with food, he give it to the nest so doesn't has it anymore
 
 	if (p_players[i].actual_column == p_Maze->nestColumn && p_players[i].actual_line == p_Maze->nestLine && p_players[i].has_food == true) {
 		p_players[i].has_food == false;
 	}
 
-	/* Si le joueur a de la nourriture à ce moment du code, cela veut dire qu'il nest pas sur un nid, 
-	donc on augmente la valeur en pheromone de la case */
+	/* If the player has food at this moment of code, this means he's on a normal tile, we just increase the pheromons value of this tile */
 
 	if (p_players[i].has_food == true) {
 		p_pheromons[p_players[i].actual_line * p_Maze->nbColumn + p_players[i].actual_column] += Constants::PHEROMON_DROP_AMOUNT;
@@ -138,12 +148,12 @@ void game::decreasePheromons()
 	- players[i].session.sendInfo(vector)
 	*/
 
-	// On fait decroitre la valeur de chaque case
+	// Decreasing the value of each tile
 	for (int i = 0; i < numberOfTiles; i++) {
 		p_pheromons[i] = (1 - Constants::PHEROMON_DECREASE_AMOUNT) * p_pheromons[i];
 	}
 
-	//Puis on envoi ce vecteur à chaque joueur.
+	// Sending the new value to each player
 
 	for (int j = 0; j < p_actual_players; j++) {
 		p_players[j]._session->sendPheromons(p_players[j].p_uuid,p_pheromons);

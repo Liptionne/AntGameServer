@@ -59,9 +59,9 @@ public:
     void findGameWithDifficulty(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session);
 
     /**
-     * @brief Gets a game with the specified UUID.
+     * @brief Returns the game where the given UUID is connected
      * @param _uuid The UUID of the game to get.
-     * @return A pointer to the game with the specified UUID, or `nullptr` if no such game exists.
+     * @return A pointer to the game with the specified UUID.
      */
     game* getGame(const boost::uuids::uuid& _uuid);
 

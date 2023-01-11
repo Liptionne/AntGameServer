@@ -27,26 +27,28 @@ server::server(boost::asio::io_context& service,
         p_games.push_back(game2);
         p_games.push_back(game3);
         
-
-        endpoint_t endpoint{ boost::asio::ip::tcp::v4(), port };
-        p_acceptor.open(endpoint.protocol());
-        p_acceptor.set_option(acceptor_t::reuse_address(false));
-        p_acceptor.bind(endpoint);
-        p_acceptor.listen();
-        startAccept();
+    // open the port for incoming connexions
+    endpoint_t endpoint{ boost::asio::ip::tcp::v4(), port };
+    p_acceptor.open(endpoint.protocol());
+    p_acceptor.set_option(acceptor_t::reuse_address(false));
+    p_acceptor.bind(endpoint);
+    p_acceptor.listen();
+    startAccept();
 }
 
 void server::startAccept() {
 
-    
+    // Create a session for the incoming connexion
     std::shared_ptr<session> new_session{ std::make_shared<session>(p_context, this)};
-    auto handler =
-        std::bind(&server::handleAccept, this, new_session, _1);
+    auto handler = std::bind(&server::handleAccept, this, new_session, _1);
+    
+    // Give the socket to the session freshly created
     p_acceptor.async_accept(new_session->socket(), handler);
 }
 
 game* server::getGame(const boost::uuids::uuid& _uuid)
 {
+
     int i = 0;
     while (p_players_game[i].first != _uuid) {
         i++;
@@ -60,7 +62,10 @@ void server::handleAccept( std::shared_ptr<session> new_session,
         throw system_error{ ec };
     }
 
+    // Start the listenning for the session
     new_session->listen();
+
+    // Restart accept of the server
     startAccept();
 }
 
@@ -90,6 +95,7 @@ void server::findGameWithDifficulty(int _difficulty, boost::uuids::uuid _uuid, s
         }
         
     }
+    // If the game is not full, we just add the player to it
     else {
         game_->join(_uuid, _session);
         //_session->setGame(&game_);
