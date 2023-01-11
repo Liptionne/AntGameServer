@@ -26,7 +26,9 @@
     <ClInclude Include="Maze\CMazeGenerator.h" />
     <ClInclude Include="Maze\CTile.h" />
     <ClInclude Include="Maze\libAntMaze.h" />
-    <ClInclude Include="Server\Game.h" />
+    <ClInclude Include="Server\constants.h" />
+    <ClInclude Include="Server\game.h" />
+    <ClInclude Include="Server\player.h" />
     <ClInclude Include="Server\server.h" />
     <ClInclude Include="Server\session.h" />
   </ItemGroup>
@@ -38,14 +40,17 @@
     <ClCompile Include="Maze\CMazeGenerator.cpp" />
     <ClCompile Include="Maze\CTile.cpp" />
     <ClCompile Include="Maze\libAntMaze.cpp" />
+    <ClCompile Include="Server\Constants.cpp" />
     <ClCompile Include="Server\Game.cpp" />
     <ClCompile Include="Server\Server.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Server\Session.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="JOIN.json" />
+    <None Include="..\README.md" />
+    <None Include="options.json" />
     <None Include="packages.config" />
+    <None Include="UML.asta" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Serveur_test_2.rc" />

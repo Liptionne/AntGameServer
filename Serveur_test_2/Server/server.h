@@ -1,3 +1,8 @@
+/**
+ * @file server.h
+ * @brief Header file for the `server` class.
+ */
+
 #pragma once
 
 #include <vector>
@@ -9,37 +14,81 @@
 #include <boost/uuid/uuid_io.hpp> 
 
 
-#include "Game.h"
+#include "game.h"
+#include "constants.h"
+
 
 /**
- * Listens to a socket and dispatches sessions for each incoming request.
+ * @class server
+ * @brief A class representing a server that manages games and sessions.
  */
 class server {
-
     using acceptor_t = boost::asio::ip::tcp::acceptor;
     using endpoint_t = boost::asio::ip::tcp::endpoint;
     using socket_t = boost::asio::ip::tcp::socket;
 
+
 public:
-    std::vector<game> _games;
-    server(boost::asio::io_service& service, unsigned short port);
+    /**
+     * @brief Constructs a new server.
+     * @param service The IO context to use for the server.
+     * @param port The port to listen on.
+     */
+    server(boost::asio::io_context& service, unsigned short port);
 
-    void start_accept();
+    /**
+     * @brief Starts accepting new connections, and send all new connection in new sessions.
+     */
+    void startAccept();
 
-    void handle_accept(std::shared_ptr<session> new_session,
+
+    /**
+     * @brief Handles the acceptance of a new session.
+     * @param new_session The new session.
+     * @param ec The error code of the operation.
+     */
+    void handleAccept(std::shared_ptr<session> new_session,
         const boost::system::error_code& ec);
-    void matchmaking(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session);
+
+    /**
+     * @brief Attempts to matchmake a player with a game of the specified difficulty.
+     * @param _difficulty The desired difficulty of the game.
+     * @param _uuid The UUID of the player.
+     * @param _session The session of the player.
+     */
+    void findGameWithDifficulty(int _difficulty, boost::uuids::uuid _uuid, std::shared_ptr<session> _session);
+
+    /**
+     * @brief Returns the game where the given UUID is connected
+     * @param _uuid The UUID of the game to get.
+     * @return A pointer to the game with the specified UUID.
+     */
+    game* getGame(const boost::uuids::uuid& _uuid);
+
+    /**
+     * @brief Returns a list of available games.
+     * @return A vector of `game` objects.
+     */
+    std::vector<game*> getListofAvailaibleGames() { return p_games; };
 
 private:
+    /**
+     * @brief A vector of games where there is space to new players.
+     */
+    std::vector<game*> p_games;
 
     /**
-     * Reference to the I/O service that will call our callbacks.
+     * @brief A vector of pairs mapping player UUIDs to the games they are in.
      */
-    boost::asio::io_service& service_;
+    std::vector <std::pair<boost::uuids::uuid, game*>> p_players_game;
 
     /**
-     * Acceptors listening to a socket on a port.
+     * @brief The IO context of the server.
      */
-    acceptor_t acceptor_;    
+    boost::asio::io_context& p_context;
 
+    /**
+     * @brief The acceptor used to accept new connections.
+     */
+    acceptor_t p_acceptor;    
 };

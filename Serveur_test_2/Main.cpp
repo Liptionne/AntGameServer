@@ -7,25 +7,60 @@
 
 
 
-void test() { //Juste pour faire le test de l'envoi du JSON join de la part du client
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000)); //on attend un peu pour etre sur que tout est bien initialisé
+void test() { 
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     std::string adress = "127.0.0.1";
-    short port = 5000;
-    std::shared_ptr<Client> client1 = std::make_shared<Client>(adress, port);
-    client1->envoyerJSON("JOIN.json", client1->getSocket());
+    short port = 9999;
+    boost::asio::io_context io_context1;
+    Client client1{ io_context1, adress, port };
     
+    
+    client1.join(1);
+   
+    
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    client1.move("haut");
+    
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    
+    client1.move("haut");
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 }
 
 int main() {
-    unsigned short port = 5000;
+
+    JSON::LoadOptionFile("options.json");
     
-    std::thread t(test);
+    
+    std::thread thread_client(test);
 
-    boost::asio::io_service service{};
+    boost::asio::io_context context{};
 
-    server s{ service, port };
+    server server{ context, Constants::SERVER_PORT };
 
-    service.run();
-    t.join();
+    // -------------------------------------------------------------------------
+
+    auto t1 = std::thread([&]
+        {
+            context.run();
+        });
+
+    // -------------------------------------------------------------------------
+
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        
+        //update all games and send pheromons vector to all connected players
+        for (game* game : server.getListofAvailaibleGames()) {
+            game->decreasePheromons();
+        }
+    }
+
+    // -------------------------------------------------------------------------
+
+    thread_client.join();
+    t1.join();
     return 0;
 }
