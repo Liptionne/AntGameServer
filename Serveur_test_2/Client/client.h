@@ -62,8 +62,6 @@ public:
      */
     Client(boost::asio::io_context& io_context1, std::string _adress, short _port);
 
-    void close();
-
     ~Client();
     /**
      * @brief Sends a join request to the server.

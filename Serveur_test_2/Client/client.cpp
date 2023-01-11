@@ -20,7 +20,7 @@ using boost::system::system_error;
 using std::placeholders::_1;
 using std::placeholders::_2;
 
-bool VERBOSE = true;
+bool VERBOSE = false;
 
 Client::Client(boost::asio::io_context& io_context1, std::string _adress, short _port) : p_io_context{ io_context1 }, p_socket_client{ io_context1 } {
     
@@ -35,17 +35,7 @@ Client::Client(boost::asio::io_context& io_context1, std::string _adress, short 
     
 }
 
-void Client::close()
-{
-    p_io_context.post([this]() {
-        p_socket_client.close();
-    // As long as outstanding completion handlers do not
-    // invoke operations on socket_, then socket_ can be 
-    // destroyed.
-        });
-}
 Client::~Client() {
-    std::cout << "client delete" << '\n';
     p_io_context.stop();
     
     t1.join();

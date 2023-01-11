@@ -27,7 +27,6 @@ void test() {
     
     client1.move("haut");
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    std::cout << " client dead" << std::endl;
 }
 
 int main() {

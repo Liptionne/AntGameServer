@@ -5,7 +5,6 @@
 
 game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_maze) : difficulty{ _difficulty }, MAX_PLAYERS{ _max_nb_players }
 {
-	std::cout << "game creation" << '\n';
 	//créer le labyrinthe
 	ParamMaze parameters_maze;
 
@@ -48,7 +47,6 @@ game::game(const int& _difficulty, const int& _max_nb_players, int _size_side_ma
 
 game::~game()
 {
-	std::cout << "destruction de game : "<< difficulty << ";" << p_actual_players << std::endl;
 	freeMaze(&p_Maze);
 }
 
@@ -118,7 +116,6 @@ void game::move(const boost::uuids::uuid& _player, std::string _move)
 
 void game::remove(std::shared_ptr<session> _session)
 {
-	std::cout << "focnotion remove" << std::endl;
 	int i = 0;
 	while (p_players[i]._session != _session) {
 		i++;
@@ -130,7 +127,6 @@ void game::remove(std::shared_ptr<session> _session)
 	}
 }
 void game::endGame() {
-	std::cout << "fin de la partie" << std::endl;
 	delete this;
 }
 

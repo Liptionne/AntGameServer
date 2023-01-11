@@ -128,7 +128,9 @@ void session::sendString(std::string _message) {
     boost::system::error_code error;
     boost::asio::write(p_socket, boost::asio::buffer(_message), error);
     if (error) {
-        std::cout << "send failed: " << error.message() << std::endl;
+        if (Constants::VERBOSE) {
+            std::cout << "send failed: " << error.message() << std::endl;
+        }
         p_game->remove(shared_from_this());
     }
 }
