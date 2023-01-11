@@ -69,18 +69,18 @@ public:
      * @brief Returns a list of available games.
      * @return A vector of `game` objects.
      */
-    std::vector<game> getListofAvailaibleGames() { return p_games; };
+    std::vector<game*> getListofAvailaibleGames() { return p_games; };
 
 private:
     /**
      * @brief A vector of games where there is space to new players.
      */
-    std::vector<game> p_games;
+    std::vector<game*> p_games;
 
     /**
      * @brief A vector of pairs mapping player UUIDs to the games they are in.
      */
-    std::vector <std::pair<boost::uuids::uuid, game>> p_players_game;
+    std::vector <std::pair<boost::uuids::uuid, game*>> p_players_game;
 
     /**
      * @brief The IO context of the server.

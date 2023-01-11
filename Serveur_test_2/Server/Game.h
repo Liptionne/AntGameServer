@@ -69,6 +69,11 @@ public:
     game(const int& _difficulty, const int& _max_nb_players, int size_side_maze);
 
     /**
+     * @brief Destructs the game (more exactly the maze)
+     */
+    ~game();
+
+    /**
      * @brief Adds a player to the game.
      * @param _player_uuid The UUID of the player.
      * @param _session The session of the player.
@@ -84,7 +89,9 @@ public:
      */
     void move(const boost::uuids::uuid& _player, std::string _move);
 
+    void remove(std::shared_ptr<session> _session);
 
+    void endGame();
     /**
      * @brief Decreases the value of all pheromons in the game, and send the result to all players connected.
      */

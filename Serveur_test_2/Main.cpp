@@ -23,11 +23,11 @@ void test() {
     client1.move("haut");
     
     
-    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     
     client1.move("haut");
-    std::this_thread::sleep_for(std::chrono::milliseconds(20000));
-    
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::cout << " client dead" << std::endl;
 }
 
 int main() {
@@ -54,8 +54,8 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         
         //update all games and send pheromons vector to all connected players
-        for (game game : server.getListofAvailaibleGames()) {
-            game.decreasePheromons();
+        for (game* game : server.getListofAvailaibleGames()) {
+            game->decreasePheromons();
         }
     }
 

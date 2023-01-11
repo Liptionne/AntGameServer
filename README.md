@@ -9,6 +9,8 @@ La version C++ utilisée est C++17.
 
 Il faut ajouter boost en librairie externe.
 
+Une documentation doxygen est disponible dans le dossier "doc"
+
 ### Fonctionnement du serveur
 
 Pour faire fonctionner le serveur, necessite de lancer le .exe 

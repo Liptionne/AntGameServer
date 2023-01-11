@@ -37,9 +37,7 @@ void session::listen() {
 
 void session::handle_write(const std::error_code& ec)
 {
-    if (ec) {
-        throw system_error{ ec };
-    }
+    
 }
 
 void session::handle_read(const error_code& ec, size_t bytes_transferred) {
@@ -131,6 +129,7 @@ void session::sendString(std::string _message) {
     boost::asio::write(p_socket, boost::asio::buffer(_message), error);
     if (error) {
         std::cout << "send failed: " << error.message() << std::endl;
+        p_game->remove(shared_from_this());
     }
 }
 
